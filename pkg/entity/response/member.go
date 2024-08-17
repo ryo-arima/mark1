@@ -11,6 +11,9 @@ type MemberResponse struct {
 type Member struct {
 	ID        uint
 	UUID      string
+	GroupUUID string
+	UserUUID  string
+	Role      string
 	CreatedAt *time.Time
 	UpdatedAt *time.Time
 	DeletedAt *time.Time
