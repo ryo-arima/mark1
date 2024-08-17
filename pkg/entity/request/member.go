@@ -1,6 +1,13 @@
 package request
 
 type MemberRequest struct {
-    ID uint
-    UUID string
+	Member Member
+}
+
+type Member struct {
+	ID        uint
+	UUID      string
+	GroupUUID string
+	UserUUID  string
+	Role      string
 }
