@@ -4,7 +4,10 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/ryo-arima/mark1/pkg/client/repository"
+	"github.com/ryo-arima/mark1/pkg/client/usecase"
 	"github.com/ryo-arima/mark1/pkg/config"
+	"github.com/ryo-arima/mark1/pkg/entity/request"
 	"github.com/spf13/cobra"
 )
 
@@ -19,6 +22,9 @@ func InitBootstrapGroupCmdForAdminUser(conf config.BaseConfig) *cobra.Command {
 				log.Fatal(err)
 			}
 			fmt.Println(option)
+			groupRepository := repository.NewGroupRepository(conf)
+			groupUsecase := usecase.NewGroupUsecase(groupRepository)
+			groupUsecase.BootstrapGroupForDB(request.GroupRequest{})
 		},
 	}
 	bootstrapGroupCmd.Flags().StringP("key", "k", "", "cache key")

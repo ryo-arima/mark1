@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ryo-arima/mark1/pkg/config"
+	"github.com/ryo-arima/mark1/pkg/entity/model"
 	"github.com/ryo-arima/mark1/pkg/entity/request"
 	"github.com/ryo-arima/mark1/pkg/entity/response"
 )
@@ -27,7 +28,8 @@ type memberRepository struct {
 
 // Bootstrap
 func (memberRepository memberRepository) BootstrapMemberForDB(request request.MemberRequest) (response response.MemberResponse) {
-	fmt.Println("BootstrapMemberForDB")
+	memberRepository.BaseConfig.DBConnection.Migrator().DropTable(&model.Members{})
+	memberRepository.BaseConfig.DBConnection.Migrator().CreateTable(&model.Members{})
 	return response
 }
 

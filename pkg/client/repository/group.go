@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ryo-arima/mark1/pkg/config"
+	"github.com/ryo-arima/mark1/pkg/entity/model"
 	"github.com/ryo-arima/mark1/pkg/entity/request"
 	"github.com/ryo-arima/mark1/pkg/entity/response"
 )
@@ -28,6 +29,8 @@ type groupRepository struct {
 // Bootstrap
 func (groupRepository groupRepository) BootstrapGroupForDB(request request.GroupRequest) (response response.GroupResponse) {
 	fmt.Println("BootstrapGroupForDB")
+	groupRepository.BaseConfig.DBConnection.Migrator().DropTable(&model.Groups{})
+	groupRepository.BaseConfig.DBConnection.Migrator().CreateTable(&model.Groups{})
 	return response
 }
 
