@@ -9,38 +9,35 @@ import (
 )
 
 type MemberRepository interface {
-	BootstrapMemberForDB(request request.MemberRequest)(response response.MemberResponse) 
-	GetMemberForPublic(request request.MemberRequest)(response response.MemberResponse) 
-	GetMemberForInternal(request request.MemberRequest)(response response.MemberResponse) 
-	GetMemberForPrivate(request request.MemberRequest)(response response.MemberResponse) 
-	CreateMemberForPublic(request request.MemberRequest)   (response response.MemberResponse) 
+	BootstrapMemberForDB(request request.MemberRequest) (response response.MemberResponse)
+	GetMemberForPublic(request request.MemberRequest) (response response.MemberResponse)
+	GetMemberForInternal(request request.MemberRequest) (response response.MemberResponse)
+	GetMemberForPrivate(request request.MemberRequest) (response response.MemberResponse)
 	CreateMemberForInternal(request request.MemberRequest) (response response.MemberResponse)
-	CreateMemberForPrivate(request request.MemberRequest)  (response response.MemberResponse)
-	UpdateMemberForPublic(request request.MemberRequest)   (response response.MemberResponse)
+	CreateMemberForPrivate(request request.MemberRequest) (response response.MemberResponse)
 	UpdateMemberForInternal(request request.MemberRequest) (response response.MemberResponse)
-	UpdateMemberForPrivate(request request.MemberRequest)  (response response.MemberResponse)
-	DeleteMemberForPublic(request request.MemberRequest)   (response response.MemberResponse)
+	UpdateMemberForPrivate(request request.MemberRequest) (response response.MemberResponse)
 	DeleteMemberForInternal(request request.MemberRequest) (response response.MemberResponse)
-	DeleteMemberForPrivate(request request.MemberRequest)  (response response.MemberResponse)
+	DeleteMemberForPrivate(request request.MemberRequest) (response response.MemberResponse)
 }
 
 type memberRepository struct {
-	BaseConfig   config.BaseConfig
+	BaseConfig config.BaseConfig
 }
 
-//Bootstrap
+// Bootstrap
 func (memberRepository memberRepository) BootstrapMemberForDB(request request.MemberRequest) (response response.MemberResponse) {
 	fmt.Println("BootstrapMemberForDB")
 	return response
 }
 
-//GET
+// GET
 func (memberRepository memberRepository) GetMemberForPublic(request request.MemberRequest) (response response.MemberResponse) {
 	fmt.Println("GetMemberForPublic")
 	return response
 }
 
-func (memberRepository memberRepository) GetMemberForInternal(request request.MemberRequest) (response response.MemberResponse ){
+func (memberRepository memberRepository) GetMemberForInternal(request request.MemberRequest) (response response.MemberResponse) {
 	fmt.Println("GetMemberForInternal")
 	return response
 }
@@ -50,50 +47,35 @@ func (memberRepository memberRepository) GetMemberForPrivate(request request.Mem
 	return response
 }
 
-//CREATE
-func (memberRepository memberRepository) CreateMemberForPublic(request request.MemberRequest) (response response.MemberResponse ){
-	fmt.Println("CreateMemberForPublic")
-	return response
-}
-
+// CREATE
 func (memberRepository memberRepository) CreateMemberForInternal(request request.MemberRequest) (response response.MemberResponse) {
 	fmt.Println("CreateMemberForInternal()")
 	return response
 }
 
-func (memberRepository memberRepository) CreateMemberForPrivate(request request.MemberRequest) (response response.MemberResponse){
+func (memberRepository memberRepository) CreateMemberForPrivate(request request.MemberRequest) (response response.MemberResponse) {
 	fmt.Println("CreateMemberForPrivate()")
 	return response
 }
 
-//UPDATE
-func (memberRepository memberRepository) UpdateMemberForPublic(request request.MemberRequest) (response response.MemberResponse){
-	fmt.Println("UpdateMemberForPublic()")
-	return response
-}
-
-func (memberRepository memberRepository) UpdateMemberForInternal(request request.MemberRequest) (response response.MemberResponse){
+// UPDATE
+func (memberRepository memberRepository) UpdateMemberForInternal(request request.MemberRequest) (response response.MemberResponse) {
 	fmt.Println("UpdateMemberForInternal")
 	return response
 }
 
-func (memberRepository memberRepository) UpdateMemberForPrivate(request request.MemberRequest) (response response.MemberResponse){
+func (memberRepository memberRepository) UpdateMemberForPrivate(request request.MemberRequest) (response response.MemberResponse) {
 	fmt.Println("UpdateMemberForPrivate")
 	return response
 }
 
-//DELETE
-func (memberRepository memberRepository) DeleteMemberForPublic(request request.MemberRequest) (response response.MemberResponse){
-	fmt.Println("DeleteMemberForPublic")
-	return response
-}
-
-func (memberRepository memberRepository) DeleteMemberForInternal(request request.MemberRequest) (response response.MemberResponse ){
+// DELETE
+func (memberRepository memberRepository) DeleteMemberForInternal(request request.MemberRequest) (response response.MemberResponse) {
 	fmt.Println("DeleteMemberForInternal")
 	return response
 }
 
-func (memberRepository memberRepository) DeleteMemberForPrivate(request request.MemberRequest) (response response.MemberResponse){
+func (memberRepository memberRepository) DeleteMemberForPrivate(request request.MemberRequest) (response response.MemberResponse) {
 	fmt.Println("DeleteMemberForPrivate")
 	return response
 }

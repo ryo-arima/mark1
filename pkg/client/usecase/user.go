@@ -12,28 +12,25 @@ type UserUsecase interface {
 	GetUserForPublic(request request.UserRequest)
 	GetUserForInternal(request request.UserRequest)
 	GetUserForPrivate(request request.UserRequest)
-	CreateUserForPublic(request request.UserRequest)
 	CreateUserForInternal(request request.UserRequest)
 	CreateUserForPrivate(request request.UserRequest)
-	UpdateUserForPublic(request request.UserRequest)
 	UpdateUserForInternal(request request.UserRequest)
 	UpdateUserForPrivate(request request.UserRequest)
-	DeleteUserForPublic(request request.UserRequest)
 	DeleteUserForInternal(request request.UserRequest)
 	DeleteUserForPrivate(request request.UserRequest)
 }
 
 type userUsecase struct {
-	UserRepository   repository.UserRepository
+	UserRepository repository.UserRepository
 }
 
-//Bootstrap
+// Bootstrap
 func (userUsecase userUsecase) BootstrapUserForDB(request request.UserRequest) {
 	users := userUsecase.UserRepository.BootstrapUserForDB(request)
 	fmt.Println(users)
 }
 
-//GET
+// GET
 func (userUsecase userUsecase) GetUserForPublic(request request.UserRequest) {
 	users := userUsecase.UserRepository.GetUserForPublic(request)
 	fmt.Println(users)
@@ -49,7 +46,7 @@ func (userUsecase userUsecase) GetUserForPrivate(request request.UserRequest) {
 	fmt.Println(users)
 }
 
-//CREATE
+// CREATE
 func (userUsecase userUsecase) CreateUserForPublic(request request.UserRequest) {
 	users := userUsecase.UserRepository.CreateUserForPublic(request)
 	fmt.Println(users)
@@ -65,12 +62,7 @@ func (userUsecase userUsecase) CreateUserForPrivate(request request.UserRequest)
 	fmt.Println(users)
 }
 
-//UPDATE
-func (userUsecase userUsecase) UpdateUserForPublic(request request.UserRequest) {
-	users := userUsecase.UserRepository.UpdateUserForPublic(request)
-	fmt.Println(users)
-}
-
+// UPDATE
 func (userUsecase userUsecase) UpdateUserForInternal(request request.UserRequest) {
 	users := userUsecase.UserRepository.UpdateUserForInternal(request)
 	fmt.Println(users)
@@ -81,12 +73,7 @@ func (userUsecase userUsecase) UpdateUserForPrivate(request request.UserRequest)
 	fmt.Println(users)
 }
 
-//DELETE
-func (userUsecase userUsecase) DeleteUserForPublic(request request.UserRequest) {
-	users := userUsecase.UserRepository.DeleteUserForPublic(request)
-	fmt.Println(users)
-}
-
+// DELETE
 func (userUsecase userUsecase) DeleteUserForInternal(request request.UserRequest) {
 	users := userUsecase.UserRepository.DeleteUserForInternal(request)
 	fmt.Println(users)
@@ -98,5 +85,5 @@ func (userUsecase userUsecase) DeleteUserForPrivate(request request.UserRequest)
 }
 
 func NewUserUsecase(userRepository repository.UserRepository) UserUsecase {
-	return &userUsecase{ UserRepository: userRepository}
+	return &userUsecase{UserRepository: userRepository}
 }

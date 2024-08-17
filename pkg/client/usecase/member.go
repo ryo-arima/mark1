@@ -12,28 +12,25 @@ type MemberUsecase interface {
 	GetMemberForPublic(request request.MemberRequest)
 	GetMemberForInternal(request request.MemberRequest)
 	GetMemberForPrivate(request request.MemberRequest)
-	CreateMemberForPublic(request request.MemberRequest)
 	CreateMemberForInternal(request request.MemberRequest)
 	CreateMemberForPrivate(request request.MemberRequest)
-	UpdateMemberForPublic(request request.MemberRequest)
 	UpdateMemberForInternal(request request.MemberRequest)
 	UpdateMemberForPrivate(request request.MemberRequest)
-	DeleteMemberForPublic(request request.MemberRequest)
 	DeleteMemberForInternal(request request.MemberRequest)
 	DeleteMemberForPrivate(request request.MemberRequest)
 }
 
 type memberUsecase struct {
-	MemberRepository   repository.MemberRepository
+	MemberRepository repository.MemberRepository
 }
 
-//Bootstrap
+// Bootstrap
 func (memberUsecase memberUsecase) BootstrapMemberForDB(request request.MemberRequest) {
 	members := memberUsecase.MemberRepository.BootstrapMemberForDB(request)
 	fmt.Println(members)
 }
 
-//GET
+// GET
 func (memberUsecase memberUsecase) GetMemberForPublic(request request.MemberRequest) {
 	members := memberUsecase.MemberRepository.GetMemberForPublic(request)
 	fmt.Println(members)
@@ -49,12 +46,7 @@ func (memberUsecase memberUsecase) GetMemberForPrivate(request request.MemberReq
 	fmt.Println(members)
 }
 
-//CREATE
-func (memberUsecase memberUsecase) CreateMemberForPublic(request request.MemberRequest) {
-	members := memberUsecase.MemberRepository.CreateMemberForPublic(request)
-	fmt.Println(members)
-}
-
+// CREATE
 func (memberUsecase memberUsecase) CreateMemberForInternal(request request.MemberRequest) {
 	members := memberUsecase.MemberRepository.CreateMemberForInternal(request)
 	fmt.Println(members)
@@ -65,12 +57,7 @@ func (memberUsecase memberUsecase) CreateMemberForPrivate(request request.Member
 	fmt.Println(members)
 }
 
-//UPDATE
-func (memberUsecase memberUsecase) UpdateMemberForPublic(request request.MemberRequest) {
-	members := memberUsecase.MemberRepository.UpdateMemberForPublic(request)
-	fmt.Println(members)
-}
-
+// UPDATE
 func (memberUsecase memberUsecase) UpdateMemberForInternal(request request.MemberRequest) {
 	members := memberUsecase.MemberRepository.UpdateMemberForInternal(request)
 	fmt.Println(members)
@@ -81,12 +68,7 @@ func (memberUsecase memberUsecase) UpdateMemberForPrivate(request request.Member
 	fmt.Println(members)
 }
 
-//DELETE
-func (memberUsecase memberUsecase) DeleteMemberForPublic(request request.MemberRequest) {
-	members := memberUsecase.MemberRepository.DeleteMemberForPublic(request)
-	fmt.Println(members)
-}
-
+// DELETE
 func (memberUsecase memberUsecase) DeleteMemberForInternal(request request.MemberRequest) {
 	members := memberUsecase.MemberRepository.DeleteMemberForInternal(request)
 	fmt.Println(members)
@@ -98,5 +80,5 @@ func (memberUsecase memberUsecase) DeleteMemberForPrivate(request request.Member
 }
 
 func NewMemberUsecase(memberRepository repository.MemberRepository) MemberUsecase {
-	return &memberUsecase{ MemberRepository: memberRepository}
+	return &memberUsecase{MemberRepository: memberRepository}
 }

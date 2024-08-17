@@ -99,7 +99,7 @@ func ClientForAdminUser(conf config.BaseConfig) {
 	updateMemberCmdForAdminUser := controller.InitUpdateMemberCmdForAdminUser(conf)
 	baseCmdForAdminUser.Update.AddCommand(updateMemberCmdForAdminUser)
 	rootCmdForAdminUser.AddCommand(baseCmdForAdminUser.Update)
-	
+
 	//delete
 	deleteUserCmdForAdminUser := controller.InitDeleteUserCmdForAdminUser(conf)
 	baseCmdForAdminUser.Delete.AddCommand(deleteUserCmdForAdminUser)
