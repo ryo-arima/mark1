@@ -1,7 +1,5 @@
 package response
 
-import "time"
-
 type MemberResponse struct {
 	Code    string
 	Message string
@@ -9,12 +7,12 @@ type MemberResponse struct {
 }
 
 type Member struct {
-	ID        uint
-	UUID      string
-	GroupUUID string
-	UserUUID  string
-	Role      string
-	CreatedAt *time.Time
-	UpdatedAt *time.Time
-	DeletedAt *time.Time
+	ID        string `json:"id"`
+	UUID      string `json:"uuid"`
+	GroupUUID string `json:"group_uuid"`
+	UserUUID  string `json:"user_uuid"`
+	Role      string `json:"role"`
+	CreatedAt string `json:"created_at"`
+	UpdatedAt string `json:"updated_at"`
+	DeletedAt string `json:"deleted_at"`
 }

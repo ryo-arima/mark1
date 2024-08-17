@@ -17,11 +17,6 @@ func InitBootstrapUserCmdForAdminUser(conf config.BaseConfig) *cobra.Command {
 		Short: "bootstrap the value of a key",
 		Long:  "bootstrap the value of a key",
 		Run: func(cmd *cobra.Command, args []string) {
-			option, err := cmd.Flags().GetString("key")
-			if err != nil {
-				log.Fatal(err)
-			}
-			fmt.Println(option)
 			userRepository := repository.NewUserRepository(conf)
 			userUsecase := usecase.NewUserUsecase(userRepository)
 			userUsecase.BootstrapUserForDB(request.UserRequest{})
@@ -37,14 +32,33 @@ func InitCreateUserCmdForAnonymousUser(conf config.BaseConfig) *cobra.Command {
 		Short: "create the value of a key",
 		Long:  "create the value of a key",
 		Run: func(cmd *cobra.Command, args []string) {
-			option, err := cmd.Flags().GetString("key")
+			email, err := cmd.Flags().GetString("email")
 			if err != nil {
 				log.Fatal(err)
 			}
-			fmt.Println(option)
+			name, err := cmd.Flags().GetString("name")
+			if err != nil {
+				log.Fatal(err)
+			}
+			password, err := cmd.Flags().GetString("password")
+			if err != nil {
+				log.Fatal(err)
+			}
+			_request := request.UserRequest{
+				User: request.User{
+					Email:    email,
+					Name:     name,
+					Password: password,
+				},
+			}
+			userRepository := repository.NewUserRepository(conf)
+			userUsecase := usecase.NewUserUsecase(userRepository)
+			userUsecase.CreateUserForPublic(_request)
 		},
 	}
-	createUserCmd.Flags().StringP("key", "k", "", "cache key")
+	createUserCmd.Flags().StringP("email", "", "", "email")
+	createUserCmd.Flags().StringP("name", "", "", "name")
+	createUserCmd.Flags().StringP("password", "", "", "password")
 	return createUserCmd
 }
 

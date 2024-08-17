@@ -1,11 +1,11 @@
 package request
 
 type GroupRequest struct {
-	Group Group
+	Group Group `json:"group"`
 }
 
 type Group struct {
-	ID   uint
-	UUID string
-	Name string
+	ID   string `json:"id"`
+	UUID string `json:"uuid"`
+	Name string `json:"name" validate:"required"`
 }

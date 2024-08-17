@@ -12,6 +12,7 @@ type UserUsecase interface {
 	GetUserForPublic(request request.UserRequest)
 	GetUserForInternal(request request.UserRequest)
 	GetUserForPrivate(request request.UserRequest)
+	CreateUserForPublic(request request.UserRequest)
 	CreateUserForInternal(request request.UserRequest)
 	CreateUserForPrivate(request request.UserRequest)
 	UpdateUserForInternal(request request.UserRequest)
