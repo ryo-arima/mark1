@@ -1,6 +1,14 @@
 package request
 
 type UserRequest struct {
-    ID uint
-    UUID string
+	User User
+}
+
+type User struct {
+	ID       uint
+	UUID     string
+	Email    string
+	Name     string
+	Password string
+	Status   string
 }

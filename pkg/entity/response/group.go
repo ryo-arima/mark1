@@ -11,6 +11,7 @@ type GroupResponse struct {
 type Group struct {
 	ID        uint
 	UUID      string
+	Name      string
 	CreatedAt *time.Time
 	UpdatedAt *time.Time
 	DeletedAt *time.Time

@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ryo-arima/mark1/pkg/config"
+	"github.com/ryo-arima/mark1/pkg/entity/model"
 	"github.com/ryo-arima/mark1/pkg/entity/request"
 	"github.com/ryo-arima/mark1/pkg/entity/response"
 )
@@ -28,7 +29,8 @@ type userRepository struct {
 
 // Bootstrap
 func (userRepository userRepository) BootstrapUserForDB(request request.UserRequest) (response response.UserResponse) {
-	fmt.Println("BootstrapUserForDB")
+	userRepository.BaseConfig.DBConnection.Migrator().DropTable(&model.Users{})
+	userRepository.BaseConfig.DBConnection.Migrator().CreateTable(&model.Users{})
 	return response
 }
 

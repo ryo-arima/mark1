@@ -1,6 +1,11 @@
 package request
 
 type GroupRequest struct {
-    ID uint
-    UUID string
+	Group Group
+}
+
+type Group struct {
+	ID   uint
+	UUID string
+	Name string
 }

@@ -32,7 +32,6 @@ func (groupController groupControllerForInternal) GetGroups(c *gin.Context) {
 	return
 }
 
-
 func (groupController groupControllerForInternal) CreateGroup(c *gin.Context) {
 	var groupRequest request.GroupRequest
 	if err := c.Bind(&groupRequest); err != nil {
@@ -44,7 +43,6 @@ func (groupController groupControllerForInternal) CreateGroup(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 	return
 }
-
 
 func (groupController groupControllerForInternal) UpdateGroup(c *gin.Context) {
 	var groupRequest request.GroupRequest
@@ -58,7 +56,6 @@ func (groupController groupControllerForInternal) UpdateGroup(c *gin.Context) {
 	return
 }
 
-
 func (groupController groupControllerForInternal) DeleteGroup(c *gin.Context) {
 	var groupRequest request.GroupRequest
 	if err := c.Bind(&groupRequest); err != nil {
@@ -71,7 +68,6 @@ func (groupController groupControllerForInternal) DeleteGroup(c *gin.Context) {
 	return
 }
 
-
 func NewGroupControllerForInternal(groupRepository repository.GroupRepository) GroupControllerForInternal {
-	return &groupControllerForInternal{ GroupRepository: groupRepository}
+	return &groupControllerForInternal{GroupRepository: groupRepository}
 }

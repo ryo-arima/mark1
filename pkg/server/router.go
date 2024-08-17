@@ -9,24 +9,23 @@ import (
 )
 
 func InitRouter(conf config.BaseConfig) *gin.Engine {
-	
+
 	userRepository := repository.NewUserRepository(conf)
 	userControllerForPublic := controller.NewUserControllerForPublic(userRepository)
 	userControllerForInternal := controller.NewUserControllerForInternal(userRepository)
 	userControllerForPrivate := controller.NewUserControllerForPrivate(userRepository)
-	
+
 	groupRepository := repository.NewGroupRepository(conf)
 	groupControllerForPublic := controller.NewGroupControllerForPublic(groupRepository)
 	groupControllerForInternal := controller.NewGroupControllerForInternal(groupRepository)
 	groupControllerForPrivate := controller.NewGroupControllerForPrivate(groupRepository)
-	
+
 	memberRepository := repository.NewMemberRepository(conf)
 	memberControllerForPublic := controller.NewMemberControllerForPublic(memberRepository)
 	memberControllerForInternal := controller.NewMemberControllerForInternal(memberRepository)
 	memberControllerForPrivate := controller.NewMemberControllerForPrivate(memberRepository)
-	
-	
-    router := gin.Default()
+
+	router := gin.Default()
 	privateAPI := router.Group("api/private")
 	internalAPI := router.Group("api/internal")
 	publicAPI := router.Group("api/public")
@@ -35,9 +34,8 @@ func InitRouter(conf config.BaseConfig) *gin.Engine {
 	internalAPI.Use(middleware.ForInternal(conf))
 	privateAPI.Use(middleware.ForPrivate(conf))
 
-	
 	//user
-	publicAPI.GET("/users", userControllerForPublic.GetUsers)
+	publicAPI.POST("/user", userControllerForPublic.CreateUser)
 	internalAPI.GET("/users", userControllerForInternal.GetUsers)
 	internalAPI.POST("/user", userControllerForInternal.CreateUser)
 	internalAPI.PUT("/user", userControllerForInternal.UpdateUser)
@@ -46,7 +44,7 @@ func InitRouter(conf config.BaseConfig) *gin.Engine {
 	privateAPI.POST("/user", userControllerForPrivate.CreateUser)
 	privateAPI.PUT("/user", userControllerForPrivate.UpdateUser)
 	privateAPI.DELETE("/user", userControllerForPrivate.DeleteUser)
-	
+
 	//group
 	publicAPI.GET("/groups", groupControllerForPublic.GetGroups)
 	internalAPI.GET("/groups", groupControllerForInternal.GetGroups)
@@ -57,7 +55,7 @@ func InitRouter(conf config.BaseConfig) *gin.Engine {
 	privateAPI.POST("/group", groupControllerForPrivate.CreateGroup)
 	privateAPI.PUT("/group", groupControllerForPrivate.UpdateGroup)
 	privateAPI.DELETE("/group", groupControllerForPrivate.DeleteGroup)
-	
+
 	//member
 	publicAPI.GET("/members", memberControllerForPublic.GetMembers)
 	internalAPI.GET("/members", memberControllerForInternal.GetMembers)
@@ -68,7 +66,6 @@ func InitRouter(conf config.BaseConfig) *gin.Engine {
 	privateAPI.POST("/member", memberControllerForPrivate.CreateMember)
 	privateAPI.PUT("/member", memberControllerForPrivate.UpdateMember)
 	privateAPI.DELETE("/member", memberControllerForPrivate.DeleteMember)
-	
 
 	return router
 }
