@@ -9,38 +9,36 @@ import (
 )
 
 type UserRepository interface {
-	BootstrapUserForDB(request request.UserRequest)(response response.UserResponse) 
-	GetUserForPublic(request request.UserRequest)(response response.UserResponse) 
-	GetUserForInternal(request request.UserRequest)(response response.UserResponse) 
-	GetUserForPrivate(request request.UserRequest)(response response.UserResponse) 
-	CreateUserForPublic(request request.UserRequest)   (response response.UserResponse) 
+	BootstrapUserForDB(request request.UserRequest) (response response.UserResponse)
+	GetUserForPublic(request request.UserRequest) (response response.UserResponse)
+	GetUserForInternal(request request.UserRequest) (response response.UserResponse)
+	GetUserForPrivate(request request.UserRequest) (response response.UserResponse)
+	CreateUserForPublic(request request.UserRequest) (response response.UserResponse)
 	CreateUserForInternal(request request.UserRequest) (response response.UserResponse)
-	CreateUserForPrivate(request request.UserRequest)  (response response.UserResponse)
-	UpdateUserForPublic(request request.UserRequest)   (response response.UserResponse)
+	CreateUserForPrivate(request request.UserRequest) (response response.UserResponse)
 	UpdateUserForInternal(request request.UserRequest) (response response.UserResponse)
-	UpdateUserForPrivate(request request.UserRequest)  (response response.UserResponse)
-	DeleteUserForPublic(request request.UserRequest)   (response response.UserResponse)
+	UpdateUserForPrivate(request request.UserRequest) (response response.UserResponse)
 	DeleteUserForInternal(request request.UserRequest) (response response.UserResponse)
-	DeleteUserForPrivate(request request.UserRequest)  (response response.UserResponse)
+	DeleteUserForPrivate(request request.UserRequest) (response response.UserResponse)
 }
 
 type userRepository struct {
-	BaseConfig   config.BaseConfig
+	BaseConfig config.BaseConfig
 }
 
-//Bootstrap
+// Bootstrap
 func (userRepository userRepository) BootstrapUserForDB(request request.UserRequest) (response response.UserResponse) {
 	fmt.Println("BootstrapUserForDB")
 	return response
 }
 
-//GET
+// GET
 func (userRepository userRepository) GetUserForPublic(request request.UserRequest) (response response.UserResponse) {
 	fmt.Println("GetUserForPublic")
 	return response
 }
 
-func (userRepository userRepository) GetUserForInternal(request request.UserRequest) (response response.UserResponse ){
+func (userRepository userRepository) GetUserForInternal(request request.UserRequest) (response response.UserResponse) {
 	fmt.Println("GetUserForInternal")
 	return response
 }
@@ -50,8 +48,8 @@ func (userRepository userRepository) GetUserForPrivate(request request.UserReque
 	return response
 }
 
-//CREATE
-func (userRepository userRepository) CreateUserForPublic(request request.UserRequest) (response response.UserResponse ){
+// CREATE
+func (userRepository userRepository) CreateUserForPublic(request request.UserRequest) (response response.UserResponse) {
 	fmt.Println("CreateUserForPublic")
 	return response
 }
@@ -61,39 +59,29 @@ func (userRepository userRepository) CreateUserForInternal(request request.UserR
 	return response
 }
 
-func (userRepository userRepository) CreateUserForPrivate(request request.UserRequest) (response response.UserResponse){
+func (userRepository userRepository) CreateUserForPrivate(request request.UserRequest) (response response.UserResponse) {
 	fmt.Println("CreateUserForPrivate()")
 	return response
 }
 
-//UPDATE
-func (userRepository userRepository) UpdateUserForPublic(request request.UserRequest) (response response.UserResponse){
-	fmt.Println("UpdateUserForPublic()")
-	return response
-}
-
-func (userRepository userRepository) UpdateUserForInternal(request request.UserRequest) (response response.UserResponse){
+// UPDATE
+func (userRepository userRepository) UpdateUserForInternal(request request.UserRequest) (response response.UserResponse) {
 	fmt.Println("UpdateUserForInternal")
 	return response
 }
 
-func (userRepository userRepository) UpdateUserForPrivate(request request.UserRequest) (response response.UserResponse){
+func (userRepository userRepository) UpdateUserForPrivate(request request.UserRequest) (response response.UserResponse) {
 	fmt.Println("UpdateUserForPrivate")
 	return response
 }
 
-//DELETE
-func (userRepository userRepository) DeleteUserForPublic(request request.UserRequest) (response response.UserResponse){
-	fmt.Println("DeleteUserForPublic")
-	return response
-}
-
-func (userRepository userRepository) DeleteUserForInternal(request request.UserRequest) (response response.UserResponse ){
+// DELETE
+func (userRepository userRepository) DeleteUserForInternal(request request.UserRequest) (response response.UserResponse) {
 	fmt.Println("DeleteUserForInternal")
 	return response
 }
 
-func (userRepository userRepository) DeleteUserForPrivate(request request.UserRequest) (response response.UserResponse){
+func (userRepository userRepository) DeleteUserForPrivate(request request.UserRequest) (response response.UserResponse) {
 	fmt.Println("DeleteUserForPrivate")
 	return response
 }
