@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/ryo-arima/mark1/pkg/client/repository"
 	"github.com/ryo-arima/mark1/pkg/config"
+	"github.com/ryo-arima/mark1/pkg/entity/request"
 	"github.com/spf13/cobra"
 )
 
@@ -19,6 +21,8 @@ func InitBootstrapUserCmdForAdminUser(conf config.BaseConfig) *cobra.Command {
 				log.Fatal(err)
 			}
 			fmt.Println(option)
+			userRepository := repository.NewUserRepository(conf)
+			userRepository.BootstrapUserForDB(request.UserRequest{})
 		},
 	}
 	bootstrapUserCmd.Flags().StringP("key", "k", "", "cache key")
