@@ -9,19 +9,17 @@ import (
 	"fmt"
 
 	yaml "gopkg.in/yaml.v3"
-
 )
 
 type BaseConfig struct {
-	DBConnection          *gorm.DB
-	YamlConfig            YamlConfig
+	DBConnection *gorm.DB
+	YamlConfig   YamlConfig
 }
 
 type YamlConfig struct {
 	Application Application `yaml:"Application"`
 	MySQL       MySQL       `yaml:"MySQL"`
 }
-
 
 type Server struct {
 	Admin Admin `yaml:"admin"`
@@ -50,9 +48,8 @@ type MySQL struct {
 	Db   string `yaml:"db"`
 }
 
-
 func NewBaseConfig() BaseConfig {
-	buf1, err := ioutil.ReadFile("etc/app.yaml")
+	buf1, err := ioutil.ReadFile("etc/main.yaml")
 	if err != nil {
 		panic(err)
 	}
@@ -65,8 +62,8 @@ func NewBaseConfig() BaseConfig {
 
 	dbConnection := NewDBConnection(d1)
 	baseConfig := &BaseConfig{
-		DBConnection:          dbConnection,
-		YamlConfig:            d1,
+		DBConnection: dbConnection,
+		YamlConfig:   d1,
 	}
 	return *baseConfig
 }
