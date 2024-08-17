@@ -7,7 +7,8 @@ import (
 )
 
 type BaseCmdForAnonymousUser struct {
-	Get       *cobra.Command
+	Get    *cobra.Command
+	Create *cobra.Command
 }
 
 func InitRootCmdForAnonymousUser() *cobra.Command {
@@ -25,8 +26,14 @@ func InitBaseCmdForAnonymousUser() BaseCmdForAnonymousUser {
 		Short: "get the value of a key",
 		Long:  "get the value of a key",
 	}
+	createCmd := &cobra.Command{
+		Use:   "create",
+		Short: "create the value of a key",
+		Long:  "create the value of a key",
+	}
 	baseCmdForAnonymousUser := BaseCmdForAnonymousUser{
-		Get:       getCmd,
+		Get:    getCmd,
+		Create: createCmd,
 	}
 	return baseCmdForAnonymousUser
 }
@@ -37,13 +44,15 @@ func ClientForAnonymousUser(conf config.BaseConfig) {
 	baseCmdForAnonymousUser := InitBaseCmdForAnonymousUser()
 
 	//get
-	getUserCmdForAnonymousUser := controller.InitGetUserCmdForAnonymousUser(conf)
-	baseCmdForAnonymousUser.Get.AddCommand(getUserCmdForAnonymousUser)
 	getGroupCmdForAnonymousUser := controller.InitGetGroupCmdForAnonymousUser(conf)
 	baseCmdForAnonymousUser.Get.AddCommand(getGroupCmdForAnonymousUser)
 	getMemberCmdForAnonymousUser := controller.InitGetMemberCmdForAnonymousUser(conf)
 	baseCmdForAnonymousUser.Get.AddCommand(getMemberCmdForAnonymousUser)
 	rootCmdForAnonymousUser.AddCommand(baseCmdForAnonymousUser.Get)
-	
+
+	//create
+	createUserCmdForAnonymousUser := controller.InitCreateUserCmdForAnonymousUser(conf)
+	baseCmdForAnonymousUser.Create.AddCommand(createUserCmdForAnonymousUser)
+	rootCmdForAnonymousUser.AddCommand(baseCmdForAnonymousUser.Create)
 	rootCmdForAnonymousUser.Execute()
 }

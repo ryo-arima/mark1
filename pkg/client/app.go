@@ -7,10 +7,10 @@ import (
 )
 
 type BaseCmdForAppUser struct {
-	Create    *cobra.Command
-	Get       *cobra.Command
-	Update    *cobra.Command
-	Delete    *cobra.Command
+	Create *cobra.Command
+	Get    *cobra.Command
+	Update *cobra.Command
+	Delete *cobra.Command
 }
 
 func InitRootCmdForAppUser() *cobra.Command {
@@ -44,10 +44,10 @@ func InitBaseCmdForAppUser() BaseCmdForAppUser {
 		Long:  "delete the value of a key",
 	}
 	baseCmdForAppUser := BaseCmdForAppUser{
-		Create:    createCmd,
-		Get:       getCmd,
-		Update:    updateCmd,
-		Delete:    deleteCmd,
+		Create: createCmd,
+		Get:    getCmd,
+		Update: updateCmd,
+		Delete: deleteCmd,
 	}
 	return baseCmdForAppUser
 }
@@ -58,14 +58,12 @@ func ClientForAppUser(conf config.BaseConfig) {
 	baseCmdForAppUser := InitBaseCmdForAppUser()
 
 	//create
-	createUserCmdForAppUser := controller.InitCreateUserCmdForAppUser(conf)
-	baseCmdForAppUser.Create.AddCommand(createUserCmdForAppUser)
 	createGroupCmdForAppUser := controller.InitCreateGroupCmdForAppUser(conf)
 	baseCmdForAppUser.Create.AddCommand(createGroupCmdForAppUser)
 	createMemberCmdForAppUser := controller.InitCreateMemberCmdForAppUser(conf)
 	baseCmdForAppUser.Create.AddCommand(createMemberCmdForAppUser)
 	rootCmdForAppUser.AddCommand(baseCmdForAppUser.Create)
-	
+
 	//get
 	getUserCmdForAppUser := controller.InitGetUserCmdForAppUser(conf)
 	baseCmdForAppUser.Get.AddCommand(getUserCmdForAppUser)
@@ -74,7 +72,7 @@ func ClientForAppUser(conf config.BaseConfig) {
 	getMemberCmdForAppUser := controller.InitGetMemberCmdForAppUser(conf)
 	baseCmdForAppUser.Get.AddCommand(getMemberCmdForAppUser)
 	rootCmdForAppUser.AddCommand(baseCmdForAppUser.Get)
-	
+
 	//update
 	updateUserCmdForAppUser := controller.InitUpdateUserCmdForAppUser(conf)
 	baseCmdForAppUser.Update.AddCommand(updateUserCmdForAppUser)
@@ -83,7 +81,7 @@ func ClientForAppUser(conf config.BaseConfig) {
 	updateMemberCmdForAppUser := controller.InitUpdateMemberCmdForAppUser(conf)
 	baseCmdForAppUser.Update.AddCommand(updateMemberCmdForAppUser)
 	rootCmdForAppUser.AddCommand(baseCmdForAppUser.Update)
-	
+
 	//delete
 	deleteUserCmdForAppUser := controller.InitDeleteUserCmdForAppUser(conf)
 	baseCmdForAppUser.Delete.AddCommand(deleteUserCmdForAppUser)
