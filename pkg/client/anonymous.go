@@ -9,6 +9,7 @@ import (
 type BaseCmdForAnonymousUser struct {
 	Get    *cobra.Command
 	Create *cobra.Command
+	Verify *cobra.Command
 }
 
 func InitRootCmdForAnonymousUser() *cobra.Command {
@@ -31,9 +32,15 @@ func InitBaseCmdForAnonymousUser() BaseCmdForAnonymousUser {
 		Short: "create the value of a key",
 		Long:  "create the value of a key",
 	}
+	verifyCmd := &cobra.Command{
+		Use:   "verify",
+		Short: "verify the value of a key",
+		Long:  "verify the value of a key",
+	}
 	baseCmdForAnonymousUser := BaseCmdForAnonymousUser{
 		Get:    getCmd,
 		Create: createCmd,
+		Verify: verifyCmd,
 	}
 	return baseCmdForAnonymousUser
 }
@@ -53,6 +60,8 @@ func ClientForAnonymousUser(conf config.BaseConfig) {
 	//create
 	createUserCmdForAnonymousUser := controller.InitCreateUserCmdForAnonymousUser(conf)
 	baseCmdForAnonymousUser.Create.AddCommand(createUserCmdForAnonymousUser)
+	createEmailCmdForAnonymousUser := controller.InitCreateEmailCmdForAnonymousUser(conf)
+	baseCmdForAnonymousUser.Create.AddCommand(createEmailCmdForAnonymousUser)
 	rootCmdForAnonymousUser.AddCommand(baseCmdForAnonymousUser.Create)
 	rootCmdForAnonymousUser.Execute()
 }

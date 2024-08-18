@@ -28,3 +28,11 @@ func GenHash(password string) (string, error) {
 	}
 	return string(hash), nil
 }
+
+func CheckHash(password string, expectedHash string) (bool, error) {
+	err := bcrypt.CompareHashAndPassword([]byte(expectedHash), []byte(password))
+	if err != nil {
+		return false, nil
+	}
+	return true, nil
+}

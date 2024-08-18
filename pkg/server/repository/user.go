@@ -11,6 +11,7 @@ import (
 type UserRepository interface {
 	GetUsers() []model.Users
 	FindUserByUUID(uuid string) model.Users
+	FindUserByEmail(uuid string) model.Users
 	CreateUser(user model.Users) *gorm.DB
 	UpdateUser(user model.Users) *gorm.DB
 	DeleteUser(uuid string) *gorm.DB
@@ -29,6 +30,12 @@ func (userRepository userRepository) GetUsers() []model.Users {
 func (userRepository userRepository) FindUserByUUID(uuid string) model.Users {
 	var user model.Users
 	userRepository.BaseConfig.DBConnection.Where("uuid = ?", uuid).First(&user)
+	return user
+}
+
+func (userRepository userRepository) FindUserByEmail(email string) model.Users {
+	var user model.Users
+	userRepository.BaseConfig.DBConnection.Where("email = ?", email).First(&user)
 	return user
 }
 
