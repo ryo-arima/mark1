@@ -33,8 +33,10 @@ func (commonRepository commonRepository) CreateEmail(email model.Email, tempCode
 		fmt.Println("Error parsing template file:", err)
 		return
 	}
+	var userModel model.Users
+	commonRepository.BaseConfig.DBConnection.Where("email = ?", email.To).First(&userModel)
 	email.From = commonRepository.BaseConfig.YamlConfig.Application.Server.Mail.User
-	email.VeryfyEmailURL = commonRepository.BaseConfig.YamlConfig.Application.Client.ServerEndpoint + "/api/public/email?code=" + tempCode
+	email.VeryfyEmailURL = commonRepository.BaseConfig.YamlConfig.Application.Client.ServerEndpoint + "/api/public/email?code=" + tempCode + "&uuid=" + userModel.UUID
 
 	var emailContent bytes.Buffer
 	err = tmpl.Execute(&emailContent, email)
@@ -44,7 +46,6 @@ func (commonRepository commonRepository) CreateEmail(email model.Email, tempCode
 	}
 
 	toMailAddress := []string{email.To}
-	fmt.Println(emailContent.String())
 	reader := strings.NewReader(emailContent.String())
 	transformer := japanese.ISO2022JP.NewEncoder()
 	msgISO2022JP, err := io.ReadAll(transform.NewReader(reader, transformer))
@@ -63,10 +64,16 @@ func (commonRepository commonRepository) CreateEmail(email model.Email, tempCode
 }
 
 func (commonRepository commonRepository) SetTempCode(email model.Email) string {
-	length := commonRepository.BaseConfig.YamlConfig.Application.Server.TmpLength
-	tempCode := middleware.GenTempCode(length)
+	length := commonRepository.BaseConfig.YamlConfig.Application.Server.Tmp.Length
+	letters := commonRepository.BaseConfig.YamlConfig.Application.Server.Tmp.Letters
+	tempCode := middleware.GenTempCode(length, letters)
 	context := commonRepository.BaseConfig.RedisConf.Ctx
-	commonRepository.BaseConfig.RedisConf.RedisConnection.Set(context, email.To, tempCode, time.Hour)
+	err := commonRepository.BaseConfig.RedisConf.RedisConnection.Set(context, email.To, tempCode, time.Hour).Err()
+	if err != nil {
+		fmt.Println("Error setting key:", err)
+	}
+	fmt.Println("+++++++++++++++++")
+	fmt.Println(tempCode)
 	return tempCode
 }
 
@@ -76,6 +83,8 @@ func (commonRepository commonRepository) GetTempCode(email model.Email) string {
 	if err != nil {
 		fmt.Println(err)
 	}
+	fmt.Println("+++++++++++++++++")
+	fmt.Println(tempCode)
 	return tempCode
 }
 

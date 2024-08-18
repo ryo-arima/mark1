@@ -39,9 +39,7 @@ func CheckHash(password string, expectedHash string) (bool, error) {
 	return true, nil
 }
 
-func GenTempCode(n int) string {
-	const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-
+func GenTempCode(n int, letters string) string {
 	b := make([]byte, n)
 	if _, err := rand.Read(b); err != nil {
 		return ""

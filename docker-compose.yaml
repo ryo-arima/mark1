@@ -27,4 +27,4 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
-    command: ["redis-server", "--port", "6379", "--requirepass", "mysecretpassword", "--user", "default on >mysecretpassword"]
+    command: ["redis-server", "--port", "6379", "--requirepass", "mysecretpassword", "--user", "default", "on", ">mysecretpassword", "+@all", "~*"]
