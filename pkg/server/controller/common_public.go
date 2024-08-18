@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -53,7 +52,6 @@ func (commonControllerForPublic commonControllerForPublic) VerifyEmail(c *gin.Co
 		tempCode := commonControllerForPublic.CommonRepository.GetTempCode(model.Email{
 			To: user.Email,
 		})
-		fmt.Println("tempCode: ", tempCode)
 		if code != tempCode {
 			c.JSON(http.StatusBadRequest, &response.UserResponse{Code: "SERVER_CONTROLLER_VERIFY__FOR__002", Message: "code is invalid", Users: []response.User{}})
 			return

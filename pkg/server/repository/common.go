@@ -72,8 +72,6 @@ func (commonRepository commonRepository) SetTempCode(email model.Email) string {
 	if err != nil {
 		fmt.Println("Error setting key:", err)
 	}
-	fmt.Println("+++++++++++++++++")
-	fmt.Println(tempCode)
 	return tempCode
 }
 
@@ -83,8 +81,6 @@ func (commonRepository commonRepository) GetTempCode(email model.Email) string {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("+++++++++++++++++")
-	fmt.Println(tempCode)
 	return tempCode
 }
 
