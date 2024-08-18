@@ -25,6 +25,10 @@ func InitRouter(conf config.BaseConfig) *gin.Engine {
 	memberControllerForInternal := controller.NewMemberControllerForInternal(memberRepository)
 	memberControllerForPrivate := controller.NewMemberControllerForPrivate(memberRepository)
 
+	commonRepository := repository.NewCommonRepository(conf)
+	commonControllerForPublic := controller.NewCommonControllerForPublic(userRepository, commonRepository)
+	commonControllerForInternal := controller.NewCommonControllerForInternal(userRepository, commonRepository)
+
 	router := gin.Default()
 	privateAPI := router.Group("api/private")
 	internalAPI := router.Group("api/internal")
@@ -33,6 +37,11 @@ func InitRouter(conf config.BaseConfig) *gin.Engine {
 	publicAPI.Use(middleware.ForPublic(conf))
 	internalAPI.Use(middleware.ForInternal(conf))
 	privateAPI.Use(middleware.ForPrivate(conf))
+
+	//common
+	publicAPI.POST("/email", commonControllerForPublic.CreateEmail)
+	publicAPI.GET("/email", commonControllerForPublic.VerifyEmail)
+	internalAPI.POST("/token", commonControllerForInternal.CreateToken)
 
 	//user
 	publicAPI.POST("/user", userControllerForPublic.CreateUser)

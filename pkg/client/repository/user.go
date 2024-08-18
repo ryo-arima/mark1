@@ -1,7 +1,11 @@
 package repository
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 
 	"github.com/ryo-arima/mark1/pkg/config"
 	"github.com/ryo-arima/mark1/pkg/entity/model"
@@ -36,7 +40,6 @@ func (userRepository userRepository) BootstrapUserForDB(request request.UserRequ
 
 // GET
 func (userRepository userRepository) GetUserForPublic(request request.UserRequest) (response response.UserResponse) {
-	fmt.Println("GetUserForPublic")
 	return response
 }
 
@@ -52,7 +55,28 @@ func (userRepository userRepository) GetUserForPrivate(request request.UserReque
 
 // CREATE
 func (userRepository userRepository) CreateUserForPublic(request request.UserRequest) (response response.UserResponse) {
-	fmt.Println("CreateUserForPublic")
+	URL := userRepository.BaseConfig.YamlConfig.Application.Client.ServerEndpoint + "/api/public/user"
+
+	jsonData, err := json.Marshal(request)
+	if err != nil {
+		fmt.Println("Error marshalling JSON:", err)
+		return
+	}
+	resp, err := http.Post(URL, "application/json", bytes.NewBuffer([]byte(jsonData)))
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+	defer resp.Body.Close()
+
+	fmt.Println("Status Code:", resp.StatusCode)
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+	fmt.Println("Response Body:", string(body))
 	return response
 }
 

@@ -1,14 +1,13 @@
 package request
 
 type UserRequest struct {
-	User User
+	User User `json:"user"`
 }
 
 type User struct {
-	ID       uint
-	UUID     string
-	Email    string
-	Name     string
-	Password string
-	Status   string
+	ID       string `json:"id"`
+	UUID     string `json:"uuid"`
+	Email    string `json:"email" validate:"required"`
+	Name     string `json:"name"`
+	Password string `json:"password" validate:"required"`
 }

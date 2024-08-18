@@ -1,7 +1,5 @@
 package response
 
-import "time"
-
 type UserResponse struct {
 	Code    string
 	Message string
@@ -9,13 +7,12 @@ type UserResponse struct {
 }
 
 type User struct {
-	ID        uint
-	UUID      string
-	Email     string
-	Name      string
-	Password  string
-	Status    string
-	CreatedAt *time.Time
-	UpdatedAt *time.Time
-	DeletedAt *time.Time
+	ID        string `json:"id"`
+	UUID      string `json:"uuid"`
+	Email     string `json:"email"`
+	Name      string `json:"name"`
+	Status    string `json:"status"`
+	CreatedAt string `json:"created_at"`
+	UpdatedAt string `json:"updated_at"`
+	DeletedAt string `json:"deleted_at"`
 }

@@ -22,7 +22,13 @@ type YamlConfig struct {
 }
 
 type Server struct {
-	Admin Admin `yaml:"admin"`
+	Port  string `yaml:"Port"`
+	Admin Admin  `yaml:"admin"`
+	Jwt   Jwt    `yaml:"Jwt"`
+}
+
+type Jwt struct {
+	Secret string `yaml:"Secret"`
 }
 
 type Client struct {
