@@ -46,7 +46,6 @@ func InitRouter(conf config.BaseConfig) *gin.Engine {
 	//user
 	publicAPI.POST("/user", userControllerForPublic.CreateUser)
 	internalAPI.GET("/users", userControllerForInternal.GetUsers)
-	internalAPI.POST("/user", userControllerForInternal.CreateUser)
 	internalAPI.PUT("/user", userControllerForInternal.UpdateUser)
 	internalAPI.DELETE("/user", userControllerForInternal.DeleteUser)
 	privateAPI.GET("/users", userControllerForPrivate.GetUsers)
