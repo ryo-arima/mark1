@@ -37,6 +37,7 @@ func ForInternal(conf config.BaseConfig) gin.HandlerFunc {
 
 		if !token.Valid {
 			fmt.Println("invalid token")
+			c.JSON(401, gin.H{"message": "invalid token"})
 		}
 		fmt.Println(claims.Username)
 		fmt.Println(claims.ID)

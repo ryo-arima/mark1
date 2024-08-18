@@ -13,6 +13,7 @@ import (
 	"golang.org/x/text/encoding/japanese"
 	"golang.org/x/text/transform"
 
+	"github.com/google/uuid"
 	"github.com/ryo-arima/mark1/pkg/config"
 	"github.com/ryo-arima/mark1/pkg/entity/model"
 	"github.com/ryo-arima/mark1/pkg/server/middleware"
@@ -72,8 +73,8 @@ func (commonRepository commonRepository) CreateJwtToken(user model.Users) string
 		Username string `json:"username"`
 		jwt.RegisteredClaims
 	}
-	expirationTime := time.Now().Add(60 * time.Minute)
-
+	expirationTime := time.Now().Add(1 * time.Minute)
+	jti := uuid.New().String()
 	claims := &Claims{
 		Username: user.Name,
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -83,7 +84,7 @@ func (commonRepository commonRepository) CreateJwtToken(user model.Users) string
 			NotBefore: jwt.NewNumericDate(time.Now()),
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
-			ID:        user.UUID,
+			ID:        user.UUID + ":" + jti,
 		},
 	}
 
