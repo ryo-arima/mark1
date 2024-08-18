@@ -27,11 +27,16 @@ type YamlConfig struct {
 }
 
 type Server struct {
-	Port      string `yaml:"port"`
-	Admin     Admin  `yaml:"admin"`
-	Jwt       Jwt    `yaml:"jwt"`
-	Mail      Mail   `yaml:"mail"`
-	TmpLength int    `yaml:"tmplength"`
+	Port  string `yaml:"port"`
+	Admin Admin  `yaml:"admin"`
+	Jwt   Jwt    `yaml:"jwt"`
+	Mail  Mail   `yaml:"mail"`
+	Tmp   Tmp    `yaml:"tmp"`
+}
+
+type Tmp struct {
+	Length  int    `yaml:"length"`
+	Letters string `yaml:"letters"`
 }
 
 type Mail struct {

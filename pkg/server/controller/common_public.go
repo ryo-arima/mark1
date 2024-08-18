@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -43,9 +42,28 @@ func (commonControllerForPublic commonControllerForPublic) CreateEmail(c *gin.Co
 }
 
 func (commonControllerForPublic commonControllerForPublic) VerifyEmail(c *gin.Context) {
-	var userRequest request.UserRequest
-	fmt.Println(userRequest)
-	c.Query("code")
+	code := c.Query("code")
+	uuid := c.Query("uuid")
+	if code == "" {
+		c.JSON(http.StatusBadRequest, &response.UserResponse{Code: "SERVER_CONTROLLER_VERIFY__FOR__001", Message: "code is required", Users: []response.User{}})
+		return
+	} else {
+		user := commonControllerForPublic.UserRepository.FindUserByUUID(uuid)
+		tempCode := commonControllerForPublic.CommonRepository.GetTempCode(model.Email{
+			To: user.Email,
+		})
+		if code != tempCode {
+			c.JSON(http.StatusBadRequest, &response.UserResponse{Code: "SERVER_CONTROLLER_VERIFY__FOR__002", Message: "code is invalid", Users: []response.User{}})
+			return
+		} else {
+			commonControllerForPublic.UserRepository.UpdateUser(model.Users{
+				UUID:   uuid,
+				Status: "EmailVerified",
+			})
+			c.JSON(http.StatusOK, &response.UserResponse{Code: "SERVER_CONTROLLER_VERIFY__FOR__003", Message: "ok", Users: []response.User{}})
+			return
+		}
+	}
 }
 
 func NewCommonControllerForPublic(userRepository repository.UserRepository, commonRepository repository.CommonRepository) CommonControllerForPublic {
