@@ -12,7 +12,6 @@ import (
 
 type UserControllerForInternal interface {
 	GetUsers(c *gin.Context)
-	CreateUser(c *gin.Context)
 	UpdateUser(c *gin.Context)
 	DeleteUser(c *gin.Context)
 }
@@ -32,20 +31,6 @@ func (userController userControllerForInternal) GetUsers(c *gin.Context) {
 	return
 }
 
-
-func (userController userControllerForInternal) CreateUser(c *gin.Context) {
-	var userRequest request.UserRequest
-	if err := c.Bind(&userRequest); err != nil {
-		c.JSON(http.StatusBadRequest, &response.UserResponse{Code: "SERVER_CONTROLLER_CREATE__FOR__001", Message: err.Error(), Users: []response.User{}})
-		return
-	}
-	var userModel model.Users
-	res := userController.UserRepository.CreateUser(userModel)
-	c.JSON(http.StatusOK, res)
-	return
-}
-
-
 func (userController userControllerForInternal) UpdateUser(c *gin.Context) {
 	var userRequest request.UserRequest
 	if err := c.Bind(&userRequest); err != nil {
@@ -57,7 +42,6 @@ func (userController userControllerForInternal) UpdateUser(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 	return
 }
-
 
 func (userController userControllerForInternal) DeleteUser(c *gin.Context) {
 	var userRequest request.UserRequest
@@ -71,7 +55,6 @@ func (userController userControllerForInternal) DeleteUser(c *gin.Context) {
 	return
 }
 
-
 func NewUserControllerForInternal(userRepository repository.UserRepository) UserControllerForInternal {
-	return &userControllerForInternal{ UserRepository: userRepository}
+	return &userControllerForInternal{UserRepository: userRepository}
 }

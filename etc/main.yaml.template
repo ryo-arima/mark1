@@ -27,3 +27,10 @@ MySQL:
   pass: mysql
   port: 3306
   db: mark1
+
+Redis:
+  host: 127.0.0.1
+  port: 6379
+  user: "default"
+  pass: "mysecretpassword"
+  db: 0

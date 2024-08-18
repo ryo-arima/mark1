@@ -34,7 +34,14 @@ func (commonControllerForPublic commonControllerForPublic) CreateEmail(c *gin.Co
 		c.JSON(http.StatusBadRequest, &response.UserResponse{Code: "SERVER_CONTROLLER_CREATE__FOR__002", Message: err.Error(), Users: []response.User{}})
 		return
 	}
-	commonControllerForPublic.CommonRepository.CreateEmail(model.Email{})
+	tempCode := commonControllerForPublic.CommonRepository.SetTempCode(model.Email{
+		To: userRequest.User.Email,
+	})
+	url := fmt.Sprintf("http://localhost:8080/email?code=%s", tempCode)
+	commonControllerForPublic.CommonRepository.CreateEmail(model.Email{
+		To:             userRequest.User.Email,
+		VeryfyEmailURL: url,
+	})
 }
 
 func (commonControllerForPublic commonControllerForPublic) VerifyEmail(c *gin.Context) {

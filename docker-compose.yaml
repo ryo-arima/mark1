@@ -22,3 +22,9 @@ services:
       - PMA_PASSWORD=mysql
     ports:
       - "3001:80"
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--port", "6379", "--requirepass", "mysecretpassword", "--user", "default on >mysecretpassword"]

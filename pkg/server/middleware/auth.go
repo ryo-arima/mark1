@@ -1,6 +1,8 @@
 package middleware
 
 import (
+	"crypto/rand"
+
 	"github.com/gin-gonic/gin"
 	"github.com/ryo-arima/mark1/pkg/config"
 	"golang.org/x/crypto/bcrypt"
@@ -35,4 +37,19 @@ func CheckHash(password string, expectedHash string) (bool, error) {
 		return false, nil
 	}
 	return true, nil
+}
+
+func GenTempCode(n int) string {
+	const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+	b := make([]byte, n)
+	if _, err := rand.Read(b); err != nil {
+		return ""
+	}
+
+	var result string
+	for _, v := range b {
+		result += string(letters[int(v)%len(letters)])
+	}
+	return result
 }
