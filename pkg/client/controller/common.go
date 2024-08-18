@@ -40,12 +40,16 @@ func InitCreateEmailCmdForAnonymousUser(conf config.BaseConfig) *cobra.Command {
 	return createTokenCmd
 }
 
-func InitCreateTokenCmdForAppUser(conf config.BaseConfig) *cobra.Command {
+func InitCreateTokenCmdForAnonymousUser(conf config.BaseConfig) *cobra.Command {
 	createTokenCmd := &cobra.Command{
 		Use:   "token",
 		Short: "create the value of a key",
 		Long:  "create the value of a key",
 		Run: func(cmd *cobra.Command, args []string) {
+			commonRepository := repository.NewCommonRepository(conf)
+			commonUsecase := usecase.NewCommonUsecase(commonRepository)
+			commonUsecase.CreateTokenForPublic()
+
 		},
 	}
 	createTokenCmd.Flags().StringP("email", "", "", "email")

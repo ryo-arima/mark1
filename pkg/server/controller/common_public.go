@@ -8,12 +8,14 @@ import (
 	"github.com/ryo-arima/mark1/pkg/entity/model"
 	"github.com/ryo-arima/mark1/pkg/entity/request"
 	"github.com/ryo-arima/mark1/pkg/entity/response"
+	"github.com/ryo-arima/mark1/pkg/server/middleware"
 	"github.com/ryo-arima/mark1/pkg/server/repository"
 )
 
 type CommonControllerForPublic interface {
 	CreateEmail(c *gin.Context)
 	VerifyEmail(c *gin.Context)
+	CreateToken(c *gin.Context)
 }
 
 type commonControllerForPublic struct {
@@ -63,6 +65,37 @@ func (commonControllerForPublic commonControllerForPublic) VerifyEmail(c *gin.Co
 			c.JSON(http.StatusOK, &response.UserResponse{Code: "SERVER_CONTROLLER_VERIFY__FOR__003", Message: "ok", Users: []response.User{}})
 			return
 		}
+	}
+}
+
+func (commonControllerForPublic commonControllerForPublic) CreateToken(c *gin.Context) {
+	var userRequest request.UserRequest
+	if err := c.Bind(&userRequest); err != nil {
+		c.JSON(http.StatusBadRequest, &response.UserResponse{Code: "SERVER_CONTROLLER_CREATE__FOR__001", Message: err.Error(), Users: []response.User{}})
+		return
+	}
+	validator := validator.New()
+	err := validator.Struct(userRequest)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &response.UserResponse{Code: "SERVER_CONTROLLER_CREATE__FOR__002", Message: err.Error(), Users: []response.User{}})
+		return
+	}
+	user := commonControllerForPublic.UserRepository.FindUserByEmail(userRequest.User.Email)
+	isAuthenticated, err := middleware.CheckHash(userRequest.User.Password, user.Password)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, &response.UserResponse{Code: "SERVER_CONTROLLER_CREATE__FOR__003", Message: err.Error(), Users: []response.User{}})
+		return
+	}
+	if isAuthenticated && user.Status == "EmailVerified" {
+		jwt := commonControllerForPublic.CommonRepository.CreateJwtToken(user)
+		c.JSON(http.StatusOK, &response.TokenResponse{
+			Code:    "SERVER_CONTROLLER_CREATE__FOR__004",
+			Message: "Success",
+			Token:   jwt,
+		})
+	} else {
+		c.JSON(http.StatusBadRequest, &response.UserResponse{Code: "SERVER_CONTROLLER_CREATE__FOR__005", Message: "Invalid", Users: []response.User{}})
+		return
 	}
 }
 

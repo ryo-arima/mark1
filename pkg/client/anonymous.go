@@ -58,6 +58,8 @@ func ClientForAnonymousUser(conf config.BaseConfig) {
 	rootCmdForAnonymousUser.AddCommand(baseCmdForAnonymousUser.Get)
 
 	//create
+	createTokenCmdForAnonymousUser := controller.InitCreateTokenCmdForAnonymousUser(conf)
+	baseCmdForAnonymousUser.Create.AddCommand(createTokenCmdForAnonymousUser)
 	createUserCmdForAnonymousUser := controller.InitCreateUserCmdForAnonymousUser(conf)
 	baseCmdForAnonymousUser.Create.AddCommand(createUserCmdForAnonymousUser)
 	createEmailCmdForAnonymousUser := controller.InitCreateEmailCmdForAnonymousUser(conf)
