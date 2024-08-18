@@ -9,9 +9,11 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/text/encoding/japanese"
 	"golang.org/x/text/transform"
 
+	"github.com/google/uuid"
 	"github.com/ryo-arima/mark1/pkg/config"
 	"github.com/ryo-arima/mark1/pkg/entity/model"
 	"github.com/ryo-arima/mark1/pkg/server/middleware"
@@ -19,6 +21,7 @@ import (
 
 type CommonRepository interface {
 	CreateEmail(email model.Email, tempCode string)
+	CreateJwtToken(user model.Users) string
 	SetTempCode(email model.Email) string
 	GetTempCode(email model.Email) string
 }
@@ -61,6 +64,37 @@ func (commonRepository commonRepository) CreateEmail(email model.Email, tempCode
 	if err := smtp.SendMail(host+":"+port, auth, user, toMailAddress, msg); err != nil {
 		fmt.Println(err)
 	}
+}
+
+func (commonRepository commonRepository) CreateJwtToken(user model.Users) string {
+	var jwtKey = []byte(commonRepository.BaseConfig.YamlConfig.Application.Server.Jwt.Secret)
+
+	type Claims struct {
+		Username string `json:"username"`
+		jwt.RegisteredClaims
+	}
+	expirationTime := time.Now().Add(1 * time.Minute)
+	jti := uuid.New().String()
+	claims := &Claims{
+		Username: user.Name,
+		RegisteredClaims: jwt.RegisteredClaims{
+			Issuer:    "mark1",
+			Subject:   "login",
+			Audience:  []string{"audience"},
+			NotBefore: jwt.NewNumericDate(time.Now()),
+			ExpiresAt: jwt.NewNumericDate(expirationTime),
+			IssuedAt:  jwt.NewNumericDate(time.Now()),
+			ID:        user.UUID + ":" + jti,
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	tokenString, err := token.SignedString(jwtKey)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return tokenString
 }
 
 func (commonRepository commonRepository) SetTempCode(email model.Email) string {

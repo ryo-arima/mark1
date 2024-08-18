@@ -15,6 +15,7 @@ import (
 type CommonRepository interface {
 	CreateEmailForPublic(request request.UserRequest) (response response.EmailResponse)
 	VerifyEmailForPublic(request request.UserRequest) (response response.EmailResponse)
+	CreateTokenForPublic() (response response.TokenResponse)
 }
 
 type commonRepository struct {
@@ -68,6 +69,38 @@ func (commonRepository commonRepository) VerifyEmailForPublic(request request.Us
 
 	// ステータスコードとレスポンスボディを表示
 	fmt.Println("Status Code:", resp.StatusCode)
+	fmt.Println("Response Body:", string(body))
+	return response
+}
+
+func (commonRepository commonRepository) CreateTokenForPublic() (response response.TokenResponse) {
+	URL := commonRepository.BaseConfig.YamlConfig.Application.Client.ServerEndpoint + "/api/public/token"
+
+	request := request.UserRequest{
+		User: request.User{
+			Email:    commonRepository.BaseConfig.YamlConfig.Application.Client.UserEmail,
+			Password: commonRepository.BaseConfig.YamlConfig.Application.Client.UserPassword,
+		},
+	}
+	jsonData, err := json.Marshal(request)
+	if err != nil {
+		fmt.Println("Error marshalling JSON:", err)
+		return
+	}
+	resp, err := http.Post(URL, "application/json", bytes.NewBuffer([]byte(jsonData)))
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+	defer resp.Body.Close()
+
+	fmt.Println("Status Code:", resp.StatusCode)
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
 	fmt.Println("Response Body:", string(body))
 	return response
 }

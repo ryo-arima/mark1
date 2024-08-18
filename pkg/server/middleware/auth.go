@@ -2,8 +2,10 @@ package middleware
 
 import (
 	"crypto/rand"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/ryo-arima/mark1/pkg/config"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -14,7 +16,31 @@ func ForPublic(conf config.BaseConfig) gin.HandlerFunc {
 }
 
 func ForInternal(conf config.BaseConfig) gin.HandlerFunc {
+	fmt.Println(conf.YamlConfig.Application.Server.Jwt.Secret)
 	return func(c *gin.Context) {
+		type Claims struct {
+			Username string `json:"username"`
+			jwt.RegisteredClaims
+		}
+		claims := &Claims{}
+
+		token, err := jwt.ParseWithClaims(c.GetHeader("Authorization"), claims, func(token *jwt.Token) (interface{}, error) {
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+			}
+			return []byte(conf.YamlConfig.Application.Server.Jwt.Secret), nil
+		})
+
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		if !token.Valid {
+			fmt.Println("invalid token")
+			c.JSON(401, gin.H{"message": "invalid token"})
+		}
+		fmt.Println(claims.Username)
+		fmt.Println(claims.ID)
 	}
 }
 

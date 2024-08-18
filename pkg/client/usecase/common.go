@@ -8,6 +8,7 @@ import (
 type CommonUsecase interface {
 	CreateEmailForPublic(request request.UserRequest)
 	VerifyEmailForPublic(request request.UserRequest)
+	CreateTokenForPublic()
 }
 
 type commonUsecase struct {
@@ -20,6 +21,10 @@ func (commonUsecase commonUsecase) CreateEmailForPublic(request request.UserRequ
 
 func (commonUsecase commonUsecase) VerifyEmailForPublic(request request.UserRequest) {
 	commonUsecase.CommonRepository.VerifyEmailForPublic(request)
+}
+
+func (commonUsecase commonUsecase) CreateTokenForPublic() {
+	commonUsecase.CommonRepository.CreateTokenForPublic()
 }
 
 func NewCommonUsecase(commonRepository repository.CommonRepository) CommonUsecase {
