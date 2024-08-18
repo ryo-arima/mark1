@@ -18,7 +18,7 @@ import (
 )
 
 type CommonRepository interface {
-	CreateEmail(email model.Email)
+	CreateEmail(email model.Email, tempCode string)
 	SetTempCode(email model.Email) string
 	GetTempCode(email model.Email) string
 }
@@ -27,13 +27,14 @@ type commonRepository struct {
 	BaseConfig config.BaseConfig
 }
 
-func (commonRepository commonRepository) CreateEmail(email model.Email) {
+func (commonRepository commonRepository) CreateEmail(email model.Email, tempCode string) {
 	tmpl, err := template.ParseFiles("pkg/server/template/verify_email.tpl")
 	if err != nil {
 		fmt.Println("Error parsing template file:", err)
 		return
 	}
 	email.From = commonRepository.BaseConfig.YamlConfig.Application.Server.Mail.User
+	email.VeryfyEmailURL = commonRepository.BaseConfig.YamlConfig.Application.Client.ServerEndpoint + "/api/public/email?code=" + tempCode
 
 	var emailContent bytes.Buffer
 	err = tmpl.Execute(&emailContent, email)

@@ -37,11 +37,9 @@ func (commonControllerForPublic commonControllerForPublic) CreateEmail(c *gin.Co
 	tempCode := commonControllerForPublic.CommonRepository.SetTempCode(model.Email{
 		To: userRequest.User.Email,
 	})
-	url := fmt.Sprintf("http://localhost:8080/email?code=%s", tempCode)
 	commonControllerForPublic.CommonRepository.CreateEmail(model.Email{
-		To:             userRequest.User.Email,
-		VeryfyEmailURL: url,
-	})
+		To: userRequest.User.Email,
+	}, tempCode)
 }
 
 func (commonControllerForPublic commonControllerForPublic) VerifyEmail(c *gin.Context) {
