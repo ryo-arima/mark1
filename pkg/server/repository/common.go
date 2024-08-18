@@ -1,10 +1,12 @@
 package repository
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"net/smtp"
 	"strings"
+	"text/template"
 
 	"golang.org/x/text/encoding/japanese"
 	"golang.org/x/text/transform"
@@ -22,27 +24,39 @@ type commonRepository struct {
 }
 
 func (commonRepository commonRepository) CreateEmail(email model.Email) {
-	mailAddress := "dst mail addr"
-	mailSubject := "<Subject>"
+	tmpl, err := template.ParseFiles("pkg/server/template/verify_email.tpl")
+	if err != nil {
+		fmt.Println("Error parsing template file:", err)
+		return
+	}
+	email.From = commonRepository.BaseConfig.YamlConfig.Application.Server.Mail.User
 
-	toMailAddress := []string{mailAddress}
-	// メールの内容を定義
-	mailBody := "テストメールです。"
-	msgStr :=
-		"To:" + mailAddress + "\r\n" + //送信先
-			"reply-to: " + "<src mail addr>" + "\r\n" + //送信元
-			"Subject:" + mailSubject + "\r\n" +
-			"\r\n" + mailBody
-	reader := strings.NewReader(msgStr)
+	var emailContent bytes.Buffer
+	err = tmpl.Execute(&emailContent, email)
+	if err != nil {
+		fmt.Println("Error executing template:", err)
+		return
+	}
+
+	toMailAddress := []string{email.To}
+	fmt.Println(emailContent.String())
+	reader := strings.NewReader(emailContent.String())
 	transformer := japanese.ISO2022JP.NewEncoder()
 	msgISO2022JP, err := io.ReadAll(transform.NewReader(reader, transformer))
 	if err != nil {
 		fmt.Println(err)
 	}
 	msg := []byte(msgISO2022JP)
-
-	auth := smtp.PlainAuth("", "src mail addr", "src mail key", "smtp.gmail.com")
-	if err := smtp.SendMail("smtp.gmail.com:587", auth, "src mail addr", toMailAddress, msg); err != nil {
+	fmt.Println(msg)
+	user := commonRepository.BaseConfig.YamlConfig.Application.Server.Mail.User
+	pass := commonRepository.BaseConfig.YamlConfig.Application.Server.Mail.Pass
+	host := commonRepository.BaseConfig.YamlConfig.Application.Server.Mail.Host
+	port := commonRepository.BaseConfig.YamlConfig.Application.Server.Mail.Port
+	fmt.Println(user, pass, host, port)
+	auth := smtp.PlainAuth("", user, pass, host)
+	fmt.Println("--------------")
+	fmt.Println(auth)
+	if err := smtp.SendMail(host+":"+port, auth, user, toMailAddress, msg); err != nil {
 		fmt.Println(err)
 	}
 }

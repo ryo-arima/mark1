@@ -1,6 +1,7 @@
 To: {{.To}}
 From: {{.From}}
-Subject: {{.Subject}}
+Reply-To: {{.From}}
+Subject: {{.ProjectName}} メールアドレスの確認
 
 {{.Name}} さま
 ご登録ありがとうございます。
