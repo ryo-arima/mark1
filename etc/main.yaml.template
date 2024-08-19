@@ -15,6 +15,9 @@ Application:
       host: "smtp.mail.com"
       port: 587
       user: ""
+    tmp:
+      letters: ""
+      length: 6
   Client:
     HomePath: "etc/.mark1"
     ServerEndpoint: "http://localhost:8000"
