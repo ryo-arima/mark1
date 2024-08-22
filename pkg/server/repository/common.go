@@ -69,14 +69,10 @@ func (commonRepository commonRepository) CreateEmail(email model.Email, tempCode
 func (commonRepository commonRepository) CreateJwtToken(user model.Users) string {
 	var jwtKey = []byte(commonRepository.BaseConfig.YamlConfig.Application.Server.Jwt.Secret)
 
-	type Claims struct {
-		Username string `json:"username"`
-		jwt.RegisteredClaims
-	}
 	expirationTime := time.Now().Add(1 * time.Minute)
 	jti := uuid.New().String()
-	claims := &Claims{
-		Username: user.Name,
+	claims := &middleware.Claims{
+		UserEmail: user.Email,
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    "mark1",
 			Subject:   "login",
