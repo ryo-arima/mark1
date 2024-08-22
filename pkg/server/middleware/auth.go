@@ -57,10 +57,14 @@ func ForPrivate(conf config.BaseConfig) gin.HandlerFunc {
 			fmt.Println("invalid token")
 			c.JSON(401, gin.H{"message": "invalid token"})
 		}
+		isAdmin := false
 		for _, email := range conf.YamlConfig.Application.Server.Admin.Emails {
-			if email != claims.UserEmail {
-				c.JSON(401, gin.H{"message": "invalid token"})
+			if email == claims.UserEmail {
+				isAdmin = true
 			}
+		}
+		if !isAdmin {
+			c.JSON(401, gin.H{"message": "invalid token"})
 		}
 	}
 }
