@@ -10,27 +10,25 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+type Claims struct {
+	UserEmail string `json:"user_email"`
+	jwt.RegisteredClaims
+}
+
 func ForPublic(conf config.BaseConfig) gin.HandlerFunc {
 	return func(c *gin.Context) {
 	}
 }
 
 func ForInternal(conf config.BaseConfig) gin.HandlerFunc {
-	fmt.Println(conf.YamlConfig.Application.Server.Jwt.Secret)
 	return func(c *gin.Context) {
-		type Claims struct {
-			Username string `json:"username"`
-			jwt.RegisteredClaims
-		}
 		claims := &Claims{}
-
 		token, err := jwt.ParseWithClaims(c.GetHeader("Authorization"), claims, func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 			}
 			return []byte(conf.YamlConfig.Application.Server.Jwt.Secret), nil
 		})
-
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -39,13 +37,31 @@ func ForInternal(conf config.BaseConfig) gin.HandlerFunc {
 			fmt.Println("invalid token")
 			c.JSON(401, gin.H{"message": "invalid token"})
 		}
-		fmt.Println(claims.Username)
-		fmt.Println(claims.ID)
 	}
 }
 
 func ForPrivate(conf config.BaseConfig) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		claims := &Claims{}
+		token, err := jwt.ParseWithClaims(c.GetHeader("Authorization"), claims, func(token *jwt.Token) (interface{}, error) {
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+			}
+			return []byte(conf.YamlConfig.Application.Server.Jwt.Secret), nil
+		})
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		if !token.Valid {
+			fmt.Println("invalid token")
+			c.JSON(401, gin.H{"message": "invalid token"})
+		}
+		for _, email := range conf.YamlConfig.Application.Server.Admin.Emails {
+			if email != claims.UserEmail {
+				c.JSON(401, gin.H{"message": "invalid token"})
+			}
+		}
 	}
 }
 
