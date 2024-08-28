@@ -1,19 +1,20 @@
-# Use a base image with the necessary tools for building RPM packages
-FROM centos:7
+# Use a base image with the necessary tools for building deb packages
+FROM ubuntu:latest
 
-# Install required packages for building RPMs
-RUN yum install -y rpm-build rpmdevtools
-
-# Set the working directory
-WORKDIR /app
+# Install build dependencies
+RUN apt-get update && apt-get install -y build-essential
 
 # Copy the source code into the container
 COPY . /app
 
-# Build the RPM package
-RUN rpmbuild -bb /app/path/to/specfile.spec
+# Set the working directory
+WORKDIR /app
 
-# Add any additional steps or configurations here
+# Build the deb package
+RUN dpkg-buildpackage -us -uc
 
-# Set the entrypoint command
-CMD ["/bin/bash"]
+# Cleanup unnecessary files
+RUN rm -rf /app
+
+# Set the entrypoint to the deb package
+CMD ["ls", "-l", "*.deb"]
