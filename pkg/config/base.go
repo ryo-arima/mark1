@@ -18,6 +18,7 @@ type BaseConfig struct {
 	DBConnection *gorm.DB
 	RedisConf    RedisConf
 	YamlConfig   YamlConfig
+	Token        string
 }
 
 type YamlConfig struct {
@@ -54,6 +55,7 @@ type Client struct {
 	ServerEndpoint string `yaml:"ServerEndpoint"`
 	UserEmail      string `yaml:"UserEmail"`
 	UserPassword   string `yaml:"UserPassword"`
+	HomeDir        string `yaml:"HomeDir"`
 }
 
 type Application struct {
@@ -86,6 +88,10 @@ type Redis struct {
 	Db   string `yaml:"db"`
 }
 
+type HomeData struct {
+	Token string
+}
+
 func NewBaseConfig() BaseConfig {
 	buf1, err := ioutil.ReadFile("etc/main.yaml")
 	if err != nil {
@@ -100,12 +106,22 @@ func NewBaseConfig() BaseConfig {
 
 	dbConnection := NewDBConnection(d1)
 	redisConf := NewRedisConf(d1)
+	token := LoadToken(d1.Application.Client.HomeDir)
 	baseConfig := &BaseConfig{
 		DBConnection: dbConnection,
 		YamlConfig:   d1,
 		RedisConf:    redisConf,
+		Token:        token,
 	}
 	return *baseConfig
+}
+
+func LoadToken(homeDir string) string {
+	buf1, err := ioutil.ReadFile(homeDir + "/token")
+	if err != nil {
+		panic(err)
+	}
+	return string(buf1)
 }
 
 func NewDBConnection(conf YamlConfig) *gorm.DB {

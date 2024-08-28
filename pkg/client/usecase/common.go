@@ -24,7 +24,9 @@ func (commonUsecase commonUsecase) VerifyEmailForPublic(request request.UserRequ
 }
 
 func (commonUsecase commonUsecase) CreateTokenForPublic() {
-	commonUsecase.CommonRepository.CreateTokenForPublic()
+	response := commonUsecase.CommonRepository.CreateTokenForPublic()
+	//取得したトークンをHomeDir/tokenに保存
+	commonUsecase.CommonRepository.SaveTokenAtHomeDir(response.Token)
 }
 
 func NewCommonUsecase(commonRepository repository.CommonRepository) CommonUsecase {

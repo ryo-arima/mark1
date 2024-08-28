@@ -23,6 +23,7 @@ Application:
     ServerEndpoint: "http://localhost:8000"
     UserEmail: "user1@mail.com"
     UserPassword: "secret"
+    HomeDir: "etc/.mark1"
 
 MySQL:
   host: 127.0.0.1
