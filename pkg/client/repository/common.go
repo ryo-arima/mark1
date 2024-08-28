@@ -16,6 +16,7 @@ type CommonRepository interface {
 	CreateEmailForPublic(request request.UserRequest) (response response.EmailResponse)
 	VerifyEmailForPublic(request request.UserRequest) (response response.EmailResponse)
 	CreateTokenForPublic() (response response.TokenResponse)
+	SaveTokenAtHomeDir(token string)
 }
 
 type commonRepository struct {
@@ -74,35 +75,61 @@ func (commonRepository commonRepository) VerifyEmailForPublic(request request.Us
 }
 
 func (commonRepository commonRepository) CreateTokenForPublic() (response response.TokenResponse) {
-	URL := commonRepository.BaseConfig.YamlConfig.Application.Client.ServerEndpoint + "/api/public/token"
+	serverEndpoint := commonRepository.BaseConfig.YamlConfig.Application.Client.ServerEndpoint
+	userEmail := commonRepository.BaseConfig.YamlConfig.Application.Client.UserEmail
+	userPassword := commonRepository.BaseConfig.YamlConfig.Application.Client.UserPassword
 
-	request := request.UserRequest{
+	URL := serverEndpoint + "/api/public/token"
+
+	requestData := request.UserRequest{
 		User: request.User{
-			Email:    commonRepository.BaseConfig.YamlConfig.Application.Client.UserEmail,
-			Password: commonRepository.BaseConfig.YamlConfig.Application.Client.UserPassword,
+			Email:    userEmail,
+			Password: userPassword,
 		},
 	}
-	jsonData, err := json.Marshal(request)
+
+	jsonData, err := json.Marshal(requestData)
 	if err != nil {
 		fmt.Println("Error marshalling JSON:", err)
 		return
 	}
-	resp, err := http.Post(URL, "application/json", bytes.NewBuffer([]byte(jsonData)))
+
+	req, err := http.NewRequest("POST", URL, bytes.NewBuffer(jsonData))
 	if err != nil {
-		fmt.Println("Error:", err)
+		fmt.Println("Error creating request:", err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println("Error sending request:", err)
 		return
 	}
 	defer resp.Body.Close()
 
-	fmt.Println("Status Code:", resp.StatusCode)
-
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println("Error:", err)
+		fmt.Println("Error reading response body:", err)
 		return
 	}
-	fmt.Println("Response Body:", string(body))
+
+	err = json.Unmarshal(body, &response)
+	if err != nil {
+		fmt.Println("Error unmarshalling response:", err)
+		return
+	}
+
 	return response
+}
+
+func (commonRepository commonRepository) SaveTokenAtHomeDir(token string) {
+	// ファイルにトークンを保存
+	err := ioutil.WriteFile(commonRepository.BaseConfig.YamlConfig.Application.Client.HomeDir+"/token", []byte(token), 0644)
+	if err != nil {
+		fmt.Println("Error writing token to file:", err)
+	}
 }
 
 func NewCommonRepository(conf config.BaseConfig) CommonRepository {

@@ -38,12 +38,12 @@ func InitRouter(conf config.BaseConfig) *gin.Engine {
 	privateAPI.Use(middleware.ForPrivate(conf))
 
 	//common
-	publicAPI.POST("/email", commonControllerForPublic.CreateEmail)
-	publicAPI.GET("/email", commonControllerForPublic.VerifyEmail)
-	publicAPI.POST("/token", commonControllerForPublic.CreateToken)
+	publicAPI.POST("/email", commonControllerForPublic.CreateEmail) //done
+	publicAPI.GET("/email", commonControllerForPublic.VerifyEmail)  //done
+	publicAPI.POST("/token", commonControllerForPublic.CreateToken) //done
 
 	//user
-	publicAPI.POST("/user", userControllerForPublic.CreateUser)
+	publicAPI.POST("/user", userControllerForPublic.CreateUser) //done
 	internalAPI.GET("/users", userControllerForInternal.GetUsers)
 	internalAPI.PUT("/user", userControllerForInternal.UpdateUser)
 	internalAPI.DELETE("/user", userControllerForInternal.DeleteUser)
