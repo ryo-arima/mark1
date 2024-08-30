@@ -23,6 +23,7 @@ jobs:
       - name: Release Build
         run: go build -ldflags="-s -w" -o release/main cmd/client/anonymous/main.go
 
+
   rpm-build:
     runs-on: ubuntu-latest
     container: ryoarima/rocky-base:latest
