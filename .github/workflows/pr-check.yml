@@ -1,0 +1,14 @@
+name: PR Check
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  pr-check:
+    runs-on: ubuntu-latest
+    container: ryoarima/ubuntu-base:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test
+        run: go test ./... -v
