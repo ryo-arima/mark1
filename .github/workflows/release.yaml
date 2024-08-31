@@ -32,7 +32,7 @@ jobs:
 
       # Normal build phase before testing
       - name: Build
-        run: go build -v cmd/client/anonymous/main.go
+        run: make build
 
       # Test phase after building
       - name: Test
