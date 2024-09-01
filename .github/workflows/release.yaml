@@ -11,18 +11,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Normal build phase before testing
-      - name: Build
-        run: go build -v cmd/client/anonymous/main.go
-
       # Test phase after building
       - name: Test
         run: go test ./... -v
-
-      # Release build phase
-      - name: Release Build
-        run: go build -ldflags="-s -w" -o release/main cmd/client/anonymous/main.go
-
+      
+        # Normal build phase before testing
+      - name: Build
+        run: make build-deb
 
   rpm-build:
     runs-on: ubuntu-latest
@@ -30,14 +25,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Normal build phase before testing
-      - name: Build
-        run: make build
-
       # Test phase after building
       - name: Test
         run: go test ./... -v
-
-      # Release build phase
-      - name: Release Build
-        run: go build -ldflags="-s -w" -o release/main cmd/client/anonymous/main.go
+      
+        # Normal build phase before testing
+      - name: Build
+        run: make build-rpm
