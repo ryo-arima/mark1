@@ -19,7 +19,12 @@ function run(){
 
 function run_on_local_container(){
     echo "Run on local container"
-    docker build -f ./tool/deb/Dockerfile --rm . 
+    ARCH=$(uname -m)
+    if [[ "$ARCH" == *arm* ]]; then
+        docker build -f ./tool/deb/Dockerfile --rm --build-arg ARCH='arm' . 
+    else
+        docker build -f ./tool/deb/Dockerfile --rm --build-arg ARCH='base' . 
+    fi
 }
 
 $COMMAND

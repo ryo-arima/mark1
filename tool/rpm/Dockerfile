@@ -1,4 +1,5 @@
-FROM ryoarima/rocky-arm:latest
+ARG ARCH=arm
+FROM ryoarima/rocky-${ARCH}:latest
 
 WORKDIR /root
 

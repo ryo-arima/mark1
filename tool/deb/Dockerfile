@@ -1,4 +1,5 @@
-FROM ryoarima/ubuntu-arm:latest
+ARG ARCH=arm
+FROM ryoarima/ubuntu-${ARCH}:latest
 
 WORKDIR /root
 
