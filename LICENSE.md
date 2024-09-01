@@ -9,5 +9,3 @@ The above copyright notice and this permission notice shall be included in all c
 
 the software is provided “as is” and without warranty of any kind, either express or implied, including, but not limited to, the warranties of merchantability, fitness for a particular purpose, and noninfringement.
 neither the author nor the copyright holder shall be liable for any claims, damages or other liability, whether in contract, tort or otherwise, arising out of or in connection with the software or the use or other handling of the software.
-
-Translated with DeepL.com (free version)
