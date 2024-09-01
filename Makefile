@@ -17,3 +17,6 @@ build-deb-local:
 
 build-rpm-local:
 	./tool/main.sh build-rpm-local
+
+build-container-up:
+	./tool/main.sh build-container-up

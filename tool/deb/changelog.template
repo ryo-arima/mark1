@@ -1,0 +1,6 @@
+mark1 (${VERSION}) jammy; urgency=medium
+
+  * Initial release of mark1.
+  * Implemented basic functionality.
+
+ -- Ryo Arima <ryo.arima.zzz@gmail.com>  ${DATETIME}

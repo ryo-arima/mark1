@@ -1,0 +1,8 @@
+Package: mark1
+Version: ${VERSION}
+Section: web
+Priority: optional
+Architecture: ${ARCH}
+Depends: bash (>= 4.0)
+Maintainer: Ryo Arima <ryo.arima.zzz@gmail.com>
+Description: simple authorization management system
