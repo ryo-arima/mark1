@@ -1,0 +1,11 @@
+[Unit]
+Description=Mark1 Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/mark1/server
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
