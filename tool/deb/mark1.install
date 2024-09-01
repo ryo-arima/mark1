@@ -1,0 +1,6 @@
+bin/mark1-ctl usr/bin
+bin/anonymous-client /opt/mark1
+bin/app-client /opt/mark1
+bin/admin-client /opt/mark1
+etc/main.yaml etc/mark1/
+systemd/mark1.service /lib/systemd/system/
