@@ -1,4 +1,4 @@
-The MIT License
+MIT License
 ===============
 
 Copyright (c) &lt;2024&gt; &lt;Ryo ARIMA&gt;
