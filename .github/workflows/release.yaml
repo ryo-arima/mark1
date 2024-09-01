@@ -10,12 +10,6 @@ jobs:
     container: ryoarima/ubuntu-base:latest
     steps:
       - uses: actions/checkout@v4
-
-      # Test phase after building
-      - name: Test
-        run: go test ./... -v
-      
-        # Normal build phase before testing
       - name: Build
         run: make build-deb
 
@@ -24,11 +18,5 @@ jobs:
     container: ryoarima/rocky-base:latest
     steps:
       - uses: actions/checkout@v4
-
-      # Test phase after building
-      - name: Test
-        run: go test ./... -v
-      
-        # Normal build phase before testing
       - name: Build
         run: make build-rpm

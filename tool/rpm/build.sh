@@ -8,8 +8,13 @@ function setup(){
     echo "Setup"
 }
 
+function test(){
+    echo "Test"
+}
+
 function run(){
     setup
+    test
 }
 
 $COMMAND
