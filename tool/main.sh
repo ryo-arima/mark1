@@ -33,10 +33,15 @@ function build(){
 
 function build-deb-local(){
     ./tool/deb/build.sh run_on_local_container
+    date "+%a, %d %b %Y %H:%M:%S +0900" --date="2024-09-01 12:00:00"
 }
 
 function build-rpm-local(){
     ./tool/rpm/build.sh run_on_local_container
+}
+
+function build-container-up(){
+    docker-compose -f ./tool/docker-compose.yaml up --build --force-recreate -d
 }
 
 $COMMAND

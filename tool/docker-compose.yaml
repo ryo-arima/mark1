@@ -1,0 +1,14 @@
+services:
+  deb:
+    container_name: deb
+    build:
+      context: ../.
+      dockerfile: tool/deb/Dockerfile
+    command: sleep infinity
+  
+  rpm:
+    container_name: rpm
+    build:
+      context: ../.
+      dockerfile: tool/rpm/Dockerfile
+    command: sleep infinity
