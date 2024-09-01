@@ -17,4 +17,9 @@ function run(){
     test
 }
 
+function run_on_local_container(){
+    echo "Run on local container"
+    docker build -f ./tool/rpm/Dockerfile --rm . 
+}
+
 $COMMAND

@@ -31,4 +31,12 @@ function build(){
     build_client
 }
 
+function build-deb-local(){
+    ./tool/deb/build.sh run_on_local_container
+}
+
+function build-rpm-local(){
+    ./tool/rpm/build.sh run_on_local_container
+}
+
 $COMMAND

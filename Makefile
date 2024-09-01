@@ -11,3 +11,9 @@ build-deb:
 
 build-rpm:
 	tool/rpm/build.sh run
+
+build-deb-local:
+	./tool/main.sh build-deb-local
+
+build-rpm-local:
+	./tool/main.sh build-rpm-local
