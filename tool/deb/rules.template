@@ -1,0 +1,20 @@
+#!/usr/bin/make -f
+
+# デフォルトのターゲットは 'build'
+build:
+	dh build
+
+# 'clean' ターゲット
+clean:
+	dh clean
+
+# 'install' ターゲット
+install:
+	dh install
+
+override_dh_dwz:
+	echo "Skipping dwz"
+
+# 'binary' ターゲット
+binary:
+	dh binary --without dwz
