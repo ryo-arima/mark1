@@ -1,9 +1,13 @@
 Source: mark1
-Package: mark1
-Version: ${VERSION}
-Section: web
+Section: utils
 Priority: optional
-Architecture: ${ARCH}
-Depends: bash (>= 4.0)
 Maintainer: Ryo Arima <ryo.arima.zzz@gmail.com>
+Standards-Version: 4.5.0
+Build-Depends: debhelper-compat (= 13), debhelper (>= 12)
+Version: ${VERSION}
+
+Package: mark1
+Architecture: any
+Depends: bash (>= 4.0)
 Description: simple authorization management system
+ A simple authorization management system for various applications.

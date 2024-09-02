@@ -1,5 +1,0 @@
-#!/bin/sh
-
-set -e
-
-ln -s /usr/bin/admin-client /usr/bin/admin-client-1.0
