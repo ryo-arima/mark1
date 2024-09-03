@@ -73,7 +73,12 @@ function build-deb(){
 function push-deb(){
     VERSION=$(cat ./VERSION)
     ARCH=$(uname -m)
-    gh release create v$VERSION ./tool/*.deb --title "v$VERSION" --notes "v$VERSION" --prerelease
+    if [ -z "$(gh release list | grep v$VERSION)" ]; then
+        gh release create v$VERSION ./tool/*.deb --title "v$VERSION" --notes "v$VERSION" --prerelease
+    else
+        gh release delete v$VERSION
+        gh release upload v$VERSION ./tool/*.deb
+    fi
 }
 
 $COMMAND
