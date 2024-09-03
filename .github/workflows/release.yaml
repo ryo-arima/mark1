@@ -11,10 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build Bin,Deb & Publish
+        env:
+          GH_TOKEN: ${{ secrets.MARK1_TOKEN }}
         run: |
           make build-bin
           make build-deb
-          make push-deb TOKEN=${{ secrets.MARK1_TOKEN }}
+          make push-deb 
 
   rpm-build:
     runs-on: ubuntu-latest

@@ -71,10 +71,8 @@ function build-deb(){
 }
 
 function push-deb(){
-    GITHUB_TOKEN=$1
     VERSION=$(cat ./VERSION)
     ARCH=$(uname -m)
-    gh auth login --with-token < ${GITHUB_TOKEN}
     gh release create v$VERSION ./tool/*.deb --title "v$VERSION" --notes "v$VERSION" --prerelease
 }
 

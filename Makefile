@@ -10,7 +10,7 @@ build-deb:
 	tool/main.sh build-deb
 
 push-deb:
-	tool/main.sh push-deb $(TOKEN)
+	tool/main.sh push-deb
 
 build-rpm:
 	tool/main.sh build-rpm
