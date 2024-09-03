@@ -22,4 +22,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build
-        run: make build-rpm
+        run: |
+          make build-bin
+          make build-rpm

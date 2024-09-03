@@ -9,6 +9,9 @@ build-bin:
 build-deb:
 	tool/main.sh build-deb
 
+build-deb:
+	tool/main.sh push-deb
+
 build-rpm:
 	tool/main.sh build-rpm
 
