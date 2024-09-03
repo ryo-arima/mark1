@@ -6,9 +6,21 @@ on:
 
 jobs:
   base-deb-build:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux/amd64
+            runner: ubuntu-latest
+          - platform: linux/arm64
+            runner: ubuntu-22.04-2core-arm64
+    runs-on: ${{ matrix.runner }}
     container: ryoarima/ubuntu-base:latest
     steps:
+      - name: Prepare
+        run: |
+          platform=${{ matrix.platform }}
+          echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENVs
       - uses: actions/checkout@v4
       - name: Set up a Git safe directory
         run: git config --global --add safe.directory "${GITHUB_WORKSPACE}"
@@ -21,10 +33,16 @@ jobs:
           make push-deb 
   
   arm-deb-build:
-    runs-on: ubuntu-latest
-    container:
-      image: ryoarima/ubuntu-arm:latest
-      options: --platform linux/arm64
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux/amd64
+            runner: ubuntu-latest
+          - platform: linux/arm64
+            runner: ubuntu-22.04-2core-arm64
+    runs-on: ${{ matrix.runner }}
+    container: ryoarima/ubuntu-arm:latest
     steps:
       - uses: actions/checkout@v4
       - name: Set up a Git safe directory
