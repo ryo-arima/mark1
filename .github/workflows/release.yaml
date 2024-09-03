@@ -10,6 +10,10 @@ jobs:
     container: ryoarima/ubuntu-base:latest
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Configure Git to treat the directory as safe
+        run: git config --global --add safe.directory /__w/mark1/mark1s
+      
       - name: Build Bin,Deb & Publish
         env:
           GH_TOKEN: ${{ secrets.MARK1_TOKEN }}
