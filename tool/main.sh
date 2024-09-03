@@ -72,11 +72,12 @@ function build-deb(){
 
 function push-deb(){
     VERSION=$(cat ./VERSION)
-    if gh release list | grep -q "v$VERSION"; then
-        gh release delete v$VERSION -y
-        gh release create v$VERSION ./tool/*.deb --title "v$VERSION" --notes "v$VERSION" --prerelease
-    else
-        gh release create v$VERSION ./tool/*.deb --title "v$VERSION" --notes "v$VERSION" --prerelease
+    RELEASE="debian-${VERSION}"
+    if gh release list | grep -q "v$RELEASE"; then
+        gh release delete v$RELEASE -y
+        gh release create v$RELEASE ./tool/*.deb --title "v$RELEASE" --notes "v$RELEASE" --prerelease
+    else                    
+        gh release create v$RELEASE ./tool/*.deb --title "v$RELEASE" --notes "v$RELEASE" --prerelease
     fi
 }
 
