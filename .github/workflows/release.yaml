@@ -10,11 +10,12 @@ jobs:
     container: ryoarima/ubuntu-base:latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set up a Git safe directory
+        run: git config --global --add safe.directory "${GITHUB_WORKSPACE}"
       - name: Build Bin,Deb & Publish
         env:
           GH_TOKEN: ${{ secrets.MARK1_TOKEN }}
         run: |
-          git config --global --add safe.directory /__w/mark1/mark1s
           make build-bin
           make build-deb
           make push-deb 
