@@ -22,7 +22,9 @@ jobs:
   
   arm-deb-build:
     runs-on: ubuntu-latest
-    container: ryoarima/ubuntu-arm:latest
+    container:
+      image: ryoarima/ubuntu-arm:latest
+      options: --platform linux/arm64
     steps:
       - uses: actions/checkout@v4
       - name: Set up a Git safe directory
