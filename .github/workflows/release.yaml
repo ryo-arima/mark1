@@ -20,12 +20,15 @@ jobs:
           make build-deb
           make push-deb 
 
-  rpm-build:
+  base-rpm-build:
     runs-on: ubuntu-latest
     container: ryoarima/rocky-base:latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build
+      - name: Set up a Git safe directory
+        run: git config --global --add safe.directory "${GITHUB_WORKSPACE}"
+      - name: Build Bin,Rpm & Publish
+        env:
+          GH_TOKEN: ${{ secrets.MARK1_TOKEN }}
         run: |
           make build-bin
-          make build-rpm

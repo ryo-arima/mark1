@@ -74,7 +74,7 @@ function push-deb(){
     VERSION=$(cat ./VERSION)
     ARCH=$(uname -m)
     RELEASE="debian-${ARCH}-v${VERSION}"
-    if gh release list | grep -q "v$RELEASE"; then
+    if gh release list | grep -q "$RELEASE"; then
         gh release delete $RELEASE -y
         gh release create $RELEASE ./tool/*.deb --title "$RELEASE" --notes "$RELEASE" --prerelease
     else                    
