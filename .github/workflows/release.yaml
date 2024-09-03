@@ -10,8 +10,11 @@ jobs:
     container: ryoarima/ubuntu-base:latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build
-        run: make build-deb
+      - name: Build Bin,Deb & Publish
+        run: |
+          make build-bin
+          make build-deb
+          make push-deb ${{ secrets.MARK1_TOKEN }}
 
   rpm-build:
     runs-on: ubuntu-latest
