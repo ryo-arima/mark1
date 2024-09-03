@@ -6,48 +6,9 @@ on:
 
 jobs:
   base-deb-build:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - platform: linux/amd64
-            runner: ubuntu-latest
-          - platform: linux/arm64
-            runner: ubuntu-22.04-2core-arm64
-    runs-on: ${{ matrix.runner }}
+    runs-on: ubuntu-latest
     container: ryoarima/ubuntu-base:latest
     steps:
-      - name: Prepare
-        run: |
-          platform=${{ matrix.platform }}
-          echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENVs
-      - uses: actions/checkout@v4
-      - name: Set up a Git safe directory
-        run: git config --global --add safe.directory "${GITHUB_WORKSPACE}"
-      - name: Build Bin,Deb & Publish
-        env:
-          GH_TOKEN: ${{ secrets.MARK1_TOKEN }}
-        run: |
-          make build-bin
-          make build-deb
-          make push-deb 
-  
-  arm-deb-build:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - platform: linux/amd64
-            runner: ubuntu-latest
-          - platform: linux/arm64
-            runner: ubuntu-22.04-2core-arm64
-    runs-on: ${{ matrix.runner }}
-    container: ryoarima/ubuntu-arm:latest
-    steps:
-      - name: Prepare
-        run: |
-          platform=${{ matrix.platform }}
-          echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENVs
       - uses: actions/checkout@v4
       - name: Set up a Git safe directory
         run: git config --global --add safe.directory "${GITHUB_WORKSPACE}"
