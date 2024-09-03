@@ -20,7 +20,7 @@ jobs:
           make build-deb
           make push-deb 
 
-  rpm-build:
+  base-rpm-build:
     runs-on: ubuntu-latest
     container: ryoarima/rocky-base:latest
     steps:
