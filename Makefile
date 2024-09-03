@@ -7,10 +7,10 @@ build-bin:
 	tool/main.sh build
 
 build-deb:
-	tool/deb/build.sh run
+	tool/main.sh build-deb
 
 build-rpm:
-	tool/rpm/build.sh run
+	tool/main.sh build-rpm
 
 build-deb-local:
 	./tool/main.sh build-deb-local

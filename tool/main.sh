@@ -50,7 +50,6 @@ function build-container-up(){
 }
 
 function build-deb(){
-    build
     VERSION=$(cat ./VERSION)
     DATETIME=$(date "+%a, %d %b %Y %H:%M:%S +0900" --date="2024-09-01 12:00:00")
     ARCH=$(uname -m)
@@ -66,7 +65,17 @@ function build-deb(){
     cp ./tool/deb/mark1.install ./tool/deb/debian/mark1.install
     chmod +x ./tool/deb/debian/rules
 
-    cd ./tool/deb/ && fakeroot dpkg-buildpackage -us -uc
+    cd ./tool/deb/ && \
+    fakeroot dpkg-buildpackage -us -uc && \
+    cd ../..
+}
+
+function push-deb(){
+    GITHUB_TOKEN=$1
+    VERSION=$(cat ./VERSION)
+    ARCH=$(uname -m)
+    gh auth login --with-token < ${GITHUB_TOKEN}
+    gh release create v$VERSION ./tool/*.deb --title "v$VERSION" --notes "v$VERSION" --prerelease
 }
 
 $COMMAND
