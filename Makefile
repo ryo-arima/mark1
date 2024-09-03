@@ -9,7 +9,7 @@ build-bin:
 build-deb:
 	tool/main.sh build-deb
 
-build-deb:
+push-deb:
 	tool/main.sh push-deb
 
 build-rpm:
