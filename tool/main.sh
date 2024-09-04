@@ -95,6 +95,8 @@ function build-rpm(){
     ARCH=$(uname -m)
     BASE_DIR=mark1-${ARCH}-${VERSION}
     rpmdev-setuptree
+    echo $HOME
+    pwd
     eval "echo \"$(cat ./tool/rpm/mark1.spec.template)\"" > /root/rpmbuild/SPECS/mark1.spec
     cd ./tool/rpm/ && \
     mkdir -p ${BASE_DIR} && \
