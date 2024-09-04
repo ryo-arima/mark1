@@ -72,13 +72,20 @@ function build-deb(){
 
 function push-deb(){
     VERSION=$(cat ./VERSION)
+    TAG_NAME="v${VERSION}"
     ARCH=$(uname -m)
-    RELEASE="debian-${ARCH}-v${VERSION}"
-    if gh release list | grep -q "$RELEASE"; then
-        gh release delete $RELEASE -y
-        gh release create $RELEASE ./tool/*.deb --title "$RELEASE" --notes "$RELEASE" --prerelease
+    REPO="ryo-arima/mark1"
+    FILE_PATH="./tool/*.deb"
+    ASSET_ID=$(gh release view $TAG_NAME --json assets --jq ".assets | map(select(.name == \"$(basename $FILE_PATH)\")) | .[0].id" -R $REPO)
+    if gh release list | grep -q "$TAG_NAME"; then
+        if [ -n "$ASSET_ID" ]; then
+          gh release delete-asset $ASSET_ID -R $REPO
+          gh release upload $TAG_NAME $FILE_PATH -R $REPO
+        else
+          gh release upload $TAG_NAME $FILE_PATH -R $REPO
+        fi
     else                    
-        gh release create $RELEASE ./tool/*.deb --title "$RELEASE" --notes "$RELEASE" --prerelease
+        gh release create $TAG_NAME $FILE_PATH --title "$TAG_NAME" --notes "$TAG_NAME" --prerelease
     fi
 }
 
