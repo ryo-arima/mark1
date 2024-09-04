@@ -78,13 +78,17 @@ function push-deb(){
     FILE_PATH="./tool/*.deb"
     ASSET_ID=$(gh release view $TAG_NAME --json assets --jq ".assets | map(select(.name == \"$(basename $FILE_PATH)\")) | .[0].id" -R $REPO)
     if gh release list | grep -q "$TAG_NAME"; then
+        echo "Release exists"
         if [ -n "$ASSET_ID" ]; then
+          echo "Asset exists"
           gh release delete-asset $ASSET_ID -R $REPO
           gh release upload $TAG_NAME $FILE_PATH -R $REPO
         else
+          echo "Asset does not exist"
           gh release upload $TAG_NAME $FILE_PATH -R $REPO
         fi
-    else                    
+    else
+        echo "Release does not exist"                  
         gh release create $TAG_NAME $FILE_PATH --title "$TAG_NAME" --notes "$TAG_NAME" --prerelease
     fi
 }
@@ -95,6 +99,8 @@ function build-rpm(){
     ARCH=$(uname -m)
     BASE_DIR=mark1-${ARCH}-${VERSION}
     rpmdev-setuptree
+    echo $HOME
+    pwd
     eval "echo \"$(cat ./tool/rpm/mark1.spec.template)\"" > /root/rpmbuild/SPECS/mark1.spec
     cd ./tool/rpm/ && \
     mkdir -p ${BASE_DIR} && \
