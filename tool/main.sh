@@ -76,12 +76,13 @@ function push-deb(){
     ARCH=$(uname -m)
     REPO="ryo-arima/mark1"
     FILE_PATH="./tool/*.deb"
+    FILE_NAME=$(basename $FILE_PATH)
     ASSET_ID=$(gh release view $TAG_NAME --json assets --jq ".assets | map(select(.name == \"$(basename $FILE_PATH)\")) | .[0].id" -R $REPO)
     if gh release list | grep -q "$TAG_NAME"; then
         echo "Release exists"
         if [ -n "$ASSET_ID" ]; then
           echo "Asset exists"
-          gh release delete-asset $ASSET_ID -R $REPO
+          gh release delete-asset $TAG_NAME $FILE_NAME -y
           gh release upload $TAG_NAME $FILE_PATH -R $REPO
         else
           echo "Asset does not exist"
@@ -107,7 +108,7 @@ function build-rpm(){
     mkdir -p ${BASE_DIR} && \
     cp -r ../../bin ${BASE_DIR} && \
     mkdir -p ${BASE_DIR}/etc && \
-    cp ../../etc/main.yaml ${BASE_DIR}/etc && \
+    cp ../../etc/main.yaml.template ${BASE_DIR}/etc/main.yaml && \
     mkdir -p ${BASE_DIR}/systemd/system && \
     cp ../systemd/mark1.service ${BASE_DIR}/systemd/system && \
     tar -czvf mark1-${ARCH}-${VERSION}.tar.gz ${BASE_DIR} && \
