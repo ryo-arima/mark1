@@ -122,16 +122,21 @@ function push-rpm(){
     TAG_NAME="v${VERSION}"
     ARCH=$(uname -m)
     REPO="ryo-arima/mark1"
-    FILE_PATH="./tool/*.rpm"
+    FILE_PATH="${HOME}/rpmbuild/RPMS/${ARCH}/mark1-${VERSION}-${ARCH}.${ARCH}.rpm"
+    FILE_NAME=$(basename $FILE_PATH)
     ASSET_ID=$(gh release view $TAG_NAME --json assets --jq ".assets | map(select(.name == \"$(basename $FILE_PATH)\")) | .[0].id" -R $REPO)
     if gh release list | grep -q "$TAG_NAME"; then
+        echo "Release exists"
         if [ -n "$ASSET_ID" ]; then
-          gh release delete-asset $ASSET_ID -R $REPO
+          echo "Asset exists"
+          gh release delete-asset $TAG_NAME $FILE_NAME -y
           gh release upload $TAG_NAME $FILE_PATH -R $REPO
         else
+          echo "Asset does not exist"
           gh release upload $TAG_NAME $FILE_PATH -R $REPO
         fi
-    else                    
+    else
+        echo "Release does not exist"                  
         gh release create $TAG_NAME $FILE_PATH --title "$TAG_NAME" --notes "$TAG_NAME" --prerelease
     fi
 }
