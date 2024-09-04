@@ -1,32 +1,32 @@
-# mark1 Release Notes
+### Release Information
 
-## [v0.0.1] - 2024-09-05
+#### [v0.0.1] - 2024-09-05
 
 <details>
 <summary>English</summary>
 
-### New Features
+##### New Features
 - Initial release.
 - Basic authorization management functionality provided.
 
-### Fixes
+##### Fixes
 - No specific fixes for this initial release.
 
-### Changes
+##### Changes
 - No specific fixes for this initial release.
 
-### Upgrade Instructions
+##### Upgrade Instructions
 1. Uninstall the existing version.
 2. Install the new version.
 3. Reconfigure your settings file as needed.
 
-### Known Issues
+##### Known Issues
 - No reported issues at this time.
 
-### Author
+##### Author
 - [Ryo Arima](https://github.com/ryo-arima)
 
-### Contact
+##### Contact
 - [ryo.arima.zzz@gmail.com](mailto:ryo.arima.zzz@gmail.com)
 
 </details>
@@ -34,34 +34,28 @@
 <details>
 <summary>日本語</summary>
 
-### 新機能
+##### 新機能
 - 初期リリース。
 - 基本的な認証管理機能の提供。
 
-### 修正
+##### 修正
 - 初期リリースのため、特記事項なし。
 
-### 変更
+##### 変更
 - 初期リリースのため、特記事項なし。
 
-### アップグレード手順
+##### アップグレード手順
 1. 既存のバージョンをアンインストールします。
 2. 新しいバージョンをインストールします。
 3. 設定ファイルを適切に配置し直します。
 
-### 既知の問題
+##### 既知の問題
 - 現在、特に報告された問題はありません。
 
-### 作者
+##### 作者
 - [Ryo Arima](https://github.com/ryo-arima)
 
-### コンタクト
+##### コンタクト
 - [ryo.arima.zzz@gmail.com](mailto:ryo.arima.zzz@gmail.com)
 
 </details>
-
----
-
-This release note is based on the official GitHub repository of mark1. For more details on changes and bug fixes, please refer to [GitHub Issues](https://github.com/ryo-arima/mark1/issues).
-<br>
-このリリースノートはmark1の公式GitHubリポジトリに基づいています。変更点やバグ修正の詳細については[GitHub Issues](https://github.com/ryo-arima/mark1/issues)を参照してください。
