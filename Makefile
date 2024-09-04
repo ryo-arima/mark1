@@ -15,6 +15,9 @@ push-deb:
 build-rpm:
 	tool/main.sh build-rpm
 
+push-rpm:
+	tool/main.sh push-rpm
+
 build-deb-local:
 	./tool/main.sh build-deb-local
 
