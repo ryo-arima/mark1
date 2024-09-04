@@ -89,4 +89,43 @@ function push-deb(){
     fi
 }
 
+function build-rpm(){
+    VERSION=$(cat ./VERSION)
+    DATETIME=$(date -d "2024-09-01" +"%a %b %d %Y")
+    ARCH=$(uname -m)
+    BASE_DIR=mark1-${ARCH}-${VERSION}
+    rpmdev-setuptree
+    eval "echo \"$(cat ./tool/rpm/mark1.spec.template)\"" > /root/rpmbuild/SPECS/mark1.spec
+    cd ./tool/rpm/ && \
+    mkdir -p ${BASE_DIR} && \
+    cp -r ../../bin ${BASE_DIR} && \
+    mkdir -p ${BASE_DIR}/etc && \
+    cp ../../etc/main.yaml ${BASE_DIR}/etc && \
+    mkdir -p ${BASE_DIR}/systemd/system && \
+    cp ../systemd/mark1.service ${BASE_DIR}/systemd/system && \
+    tar -czvf mark1-${ARCH}-${VERSION}.tar.gz ${BASE_DIR} && \
+    cp mark1-${ARCH}-${VERSION}.tar.gz /root/rpmbuild/SOURCES && \
+    cd ../..
+    rpmbuild --define '_build_id_links none' --define 'debug_package %{nil}' -ba /root/rpmbuild/SPECS/mark1.spec
+}
+
+function push-rpm(){
+    VERSION=$(cat ./VERSION)
+    TAG_NAME="v${VERSION}"
+    ARCH=$(uname -m)
+    REPO="ryo-arima/mark1"
+    FILE_PATH="./tool/*.rpm"
+    ASSET_ID=$(gh release view $TAG_NAME --json assets --jq ".assets | map(select(.name == \"$(basename $FILE_PATH)\")) | .[0].id" -R $REPO)
+    if gh release list | grep -q "$TAG_NAME"; then
+        if [ -n "$ASSET_ID" ]; then
+          gh release delete-asset $ASSET_ID -R $REPO
+          gh release upload $TAG_NAME $FILE_PATH -R $REPO
+        else
+          gh release upload $TAG_NAME $FILE_PATH -R $REPO
+        fi
+    else                    
+        gh release create $TAG_NAME $FILE_PATH --title "$TAG_NAME" --notes "$TAG_NAME" --prerelease
+    fi
+}
+
 $COMMAND

@@ -1,0 +1,43 @@
+Name:           mark1
+Version:        ${VERSION}
+Release:        ${ARCH}
+Summary:        simple authorization management system
+
+License:        MIT
+URL:            https://github.com/ryo-arima/mark1
+Source0:        mark1-${ARCH}-${VERSION}.tar.gz
+
+BuildRequires:  gcc, make
+Requires:       bash
+
+%description
+simple authorization management system
+ A simple authorization management system for various applications.
+
+%prep
+%setup -q -n mark1-${ARCH}-${VERSION}
+
+%build
+
+%install
+rm -rf %{buildroot}
+install -D -m 0755 bin/mark1-ctl %{buildroot}/usr/bin/mark1-ctl
+install -D -m 0755 bin/anonymous-client %{buildroot}/opt/mark1/anonymous-client
+install -D -m 0755 bin/app-client %{buildroot}/opt/mark1/app-client
+install -D -m 0755 bin/admin-client %{buildroot}/opt/mark1/admin-client
+install -D -m 0755 bin/server %{buildroot}/opt/mark1/server
+install -D -m 0644 etc/main.yaml %{buildroot}/etc/mark1/main.yaml
+install -D -m 0644 systemd/system/mark1.service %{buildroot}/lib/systemd/system/mark1.service
+
+%files
+/usr/bin/mark1-ctl
+/opt/mark1/anonymous-client
+/opt/mark1/app-client
+/opt/mark1/admin-client
+/opt/mark1/server
+/etc/mark1/main.yaml
+/lib/systemd/system/mark1.service
+
+%changelog
+* ${DATETIME} Ryo Arima <ryo.arima.zzz@gmail.com> - ${VERSION}-${ARCH}
+- Initial package

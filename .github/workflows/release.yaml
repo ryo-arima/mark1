@@ -32,3 +32,5 @@ jobs:
           GH_TOKEN: ${{ secrets.MARK1_TOKEN }}
         run: |
           make build-bin
+          make build-rpm
+          make push-rpm
