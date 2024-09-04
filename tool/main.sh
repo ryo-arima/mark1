@@ -100,8 +100,9 @@ function build-rpm(){
     BASE_DIR=mark1-${ARCH}-${VERSION}
     rpmdev-setuptree
     echo $HOME
+    ls -al ${HOME}
     pwd
-    eval "echo \"$(cat ./tool/rpm/mark1.spec.template)\"" > /root/rpmbuild/SPECS/mark1.spec
+    eval "echo \"$(cat ./tool/rpm/mark1.spec.template)\"" > ${HOME}/rpmbuild/SPECS/mark1.spec
     cd ./tool/rpm/ && \
     mkdir -p ${BASE_DIR} && \
     cp -r ../../bin ${BASE_DIR} && \
@@ -110,9 +111,9 @@ function build-rpm(){
     mkdir -p ${BASE_DIR}/systemd/system && \
     cp ../systemd/mark1.service ${BASE_DIR}/systemd/system && \
     tar -czvf mark1-${ARCH}-${VERSION}.tar.gz ${BASE_DIR} && \
-    cp mark1-${ARCH}-${VERSION}.tar.gz /root/rpmbuild/SOURCES && \
+    cp mark1-${ARCH}-${VERSION}.tar.gz ${HOME}/rpmbuild/SOURCES && \
     cd ../..
-    rpmbuild --define '_build_id_links none' --define 'debug_package %{nil}' -ba /root/rpmbuild/SPECS/mark1.spec
+    rpmbuild --define '_build_id_links none' --define 'debug_package %{nil}' -ba ${HOME}/rpmbuild/SPECS/mark1.spec
 }
 
 function push-rpm(){
