@@ -50,4 +50,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.MARK1_TOKEN }}
         run: |
-          docker build --platform linux/arm64 -e GH_TOKEN=${GH_TOKEN} -f tool/deb/Dockerfile.github -t tmp  .
+          docker run --platform linux/arm64 --rm -v -v ${GITHUB_WORKSPACE}:/root/mark1 -e GH_TOKEN=${GH_TOKEN} ryoarima/ubuntu-arm:latest bash -c "cd /root/mark1 && make build-bin && make build-deb && make push-deb"
