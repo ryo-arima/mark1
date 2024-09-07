@@ -36,7 +36,12 @@ jobs:
           make push-rpm
   
   arm-deb-build:
-    runs-on: ubuntu-22.04-2core-arm64
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - linux/arm64
     container: ryoarima/ubuntu-arm:latest
     steps:
       - uses: actions/checkout@v4
