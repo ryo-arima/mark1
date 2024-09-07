@@ -26,3 +26,6 @@ build-rpm-local:
 
 build-container-up:
 	./tool/main.sh build-container-up
+
+update-readme:
+	./tool/main.sh update-readme
