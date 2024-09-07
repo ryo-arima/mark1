@@ -47,5 +47,7 @@ jobs:
       - name: Check out the code
         uses: actions/checkout@v4
       - name: Pull and run ARM container
+        env:
+          GH_TOKEN: ${{ secrets.MARK1_TOKEN }}
         run: |
-          docker build --platform linux/arm64 -f tool/deb/Dockerfile.github -t tmp .
+          docker build --platform linux/arm64 -f tool/deb/Dockerfile.github -t tmp --build-arg TOKEN=${GH_TOKEN} . 
