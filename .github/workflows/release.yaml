@@ -34,3 +34,20 @@ jobs:
           make build-bin
           make build-rpm
           make push-rpm
+  
+  arm-deb-build:
+    runs-on: ubuntu-latest
+    container: ryoarima/ubuntu-arm:latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          platform: linux/arm64
+      - name: Set up a Git safe directory
+        run: git config --global --add safe.directory "${GITHUB_WORKSPACE}"
+      - name: Build Bin,Deb & Publish
+        env:
+          GH_TOKEN: ${{ secrets.MARK1_TOKEN }}
+        run: |
+          make build-bin
+          make build-deb
+          make push-deb 
