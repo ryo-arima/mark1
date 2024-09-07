@@ -1,2 +1,6 @@
-[![Go](https://github.com/ryo-arima/mark1/actions/workflows/go.yml/badge.svg?branch=main)](https://github.com/ryo-arima/mark1/actions/workflows/go.yml)
+![](https://img.shields.io/badge/rpm_x86_build-success-brightgreen) &nbsp;
+![](https://img.shields.io/badge/rpm_arm_build-unknown-yellow) &nbsp;
+![](https://img.shields.io/badge/deb_arm_build-unknown-yellow) &nbsp;
+![](https://img.shields.io/badge/deb_x86_build-success-brightgreen)&nbsp;
+<br>
 # mark1
