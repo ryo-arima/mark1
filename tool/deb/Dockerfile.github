@@ -1,7 +1,4 @@
-ARG TOKEN=""
 FROM ryoarima/ubuntu-arm:latest
-ENV GH_TOKEN=$TOKEN
-
 
 WORKDIR /root
 
