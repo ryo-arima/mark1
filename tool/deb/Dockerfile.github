@@ -8,6 +8,6 @@ COPY ./.. /root/mark1
 
 RUN echo "Start" && \
     pwd && ls -la && \
-    echo ${GH_TOKEN}
+    ls -al mark1
 
 CMD [ "echo", "This is mark1" ]
