@@ -37,13 +37,14 @@ jobs:
   
   arm-deb-build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - linux/arm64
-    container: ryoarima/ubuntu-arm:latest
+    container: 
+      image: ryoarima/ubuntu-arm:latest
+      options: --platform linux/arm64
     steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: arm64
       - uses: actions/checkout@v4
       - name: Set up a Git safe directory
         run: git config --global --add safe.directory "${GITHUB_WORKSPACE}"
