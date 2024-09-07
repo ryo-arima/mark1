@@ -1,0 +1,29 @@
+name: UPDATE README
+
+on:
+    workflow_dispatch:
+      inputs:
+        name:
+          description: ""
+          required: true
+          default: "update-readme"
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    container: ryoarima/rocky-base:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up a Git safe directory
+        run: git config --global --add safe.directory "${GITHUB_WORKSPACE}"
+      - name: Build Bin,Rpm & Publish
+        env:
+          GH_TOKEN: ${{ secrets.MARK1_TOKEN }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b update-readme
+          make update-readme
+          git add README.md
+          git commit -m "Update README from GitHub Actions"
+          git push origin update-readme
+      

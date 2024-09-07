@@ -143,4 +143,54 @@ function push-rpm(){
     fi
 }
 
+function update-readme(){
+    RUN_ID=$(gh run list --limit 1 --json databaseId --jq '.[0].databaseId')
+    gh run view $RUN_ID --json jobs --jq '.jobs[] | {name: .name, conclusion: .conclusion}' > status.json
+
+    rm -f ./docs/readme/status.md 
+    # base-rpm-build
+    base_rpm_build=$(cat status.json | jq -r '.[] | select(.name == "base-rpm-build") | .conclusion')
+    if [ "$base_rpm_build" != "success" ]; then
+      echo "![](https://img.shields.io/badge/rpm_x86_build-failure-red) &nbsp;" >> ./docs/readme/status.md
+      echo "Job base-rpm-build failed with conclusion: $base_rpm_build"
+    else
+      echo "![](https://img.shields.io/badge/rpm_x86_build-success-brightgreen) &nbsp;" >> ./docs/readme/status.md
+      echo "Job base-rpm-build succeeded."
+    fi
+
+    # arm-rpm-build
+    arm_rpm_build=$(echo "$json_data" | jq -r '.[] | select(.name == "arm-rpm-build") | .conclusion')
+    if [ "$arm_rpm_build" != "success" ]; then
+      echo "![](https://img.shields.io/badge/rpm_arm_build-failure-red) &nbsp;" >> ./docs/readme/status.md
+      echo "Job arm-rpm-build failed with conclusion: $arm_rpm_build"
+    else
+      echo "![](https://img.shields.io/badge/rpm_arm_build-success-brightgreen) &nbsp;" >> ./docs/readme/status.md
+      echo "Job arm-rpm-build succeeded."
+    fi
+
+    # arm-deb-build
+    arm_deb_build=$(echo "$json_data" | jq -r '.[] | select(.name == "arm-deb-build") | .conclusion')
+    if [ "$arm_deb_build" != "success" ]; then
+      echo "![](https://img.shields.io/badge/deb_arm_build-failure-red) &nbsp;" >> ./docs/readme/status.md
+      echo "Job arm-deb-build failed with conclusion: $arm_deb_build"
+    else
+      echo "![](https://img.shields.io/badge/deb_arm_build-success-brightgreen) &nbsp;" >> ./docs/readme/status.md
+      echo "Job arm-deb-build succeeded."
+    fi
+
+    # base-deb-build
+    base_deb_build=$(echo "$json_data" | jq -r '.[] | select(.name == "base-deb-build") | .conclusion')
+    if [ "$base_deb_build" != "success" ]; then
+      echo "![](https://img.shields.io/badge/deb_x86_build-failure-red)" >> ./docs/readme/status.md
+      echo "Job base-deb-build failed with conclusion: $base_deb_build"
+    else
+      echo "![](https://img.shields.io/badge/deb_x86_build-success-brightgreen)" >> ./docs/readme/status.md
+      echo "Job base-deb-build succeeded."
+    fi
+    rm -f status.json
+    rm README.md
+    cat ./docs/readme/status.md > ./README.md
+    cat ./docs/readme/main.md >> ./README.md
+}
+
 $COMMAND
