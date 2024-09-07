@@ -67,4 +67,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.MARK1_TOKEN }}
         run: |
-          docker run --platform linux/arm64 --rm -v ${GITHUB_WORKSPACE}:/root/mark1 -e GH_TOKEN=${GH_TOKEN} ryoarima/rocky-base:latest bash -c "git config --global --add safe.directory /root/mark1 && cd /root/mark1 && make build-bin && make build-rpm && make push-rpm"
+          docker run --platform linux/arm64 --rm -v ${GITHUB_WORKSPACE}:/root/mark1 -e GH_TOKEN=${GH_TOKEN} ryoarima/rocky-arm:latest bash -c "git config --global --add safe.directory /root/mark1 && cd /root/mark1 && make build-bin && make build-rpm && make push-rpm"
