@@ -37,25 +37,17 @@ jobs:
   
   arm-deb-build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        qemu-platforms:
-          - arm64,arm
-    container: 
-      image: ryoarima/ubuntu-arm:latest
     steps:
-      - uses: actions/checkout@v4
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
-          platforms: ${{ matrix.qemu-platforms }}
-      - name: Set up a Git safe directory
-        run: git config --global --add safe.directory "${GITHUB_WORKSPACE}"
-      - name: Build Bin,Deb & Publish
-        env:
-          GH_TOKEN: ${{ secrets.MARK1_TOKEN }}
+          platforms: arm64
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Check out the code
+        uses: actions/checkout@v4
+      - name: Pull and run ARM container
         run: |
-          make build-bin
-          make build-deb
-          make push-deb 
+         uname -m
+         ls -al
+         pwd
