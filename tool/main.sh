@@ -191,13 +191,13 @@ function update-readme(){
     # base-deb-build
     base_deb_build=$(cat status.json | jq -r '.[] | select(.name == "base-deb-build") | .conclusion')
     if [ "$base_deb_build" == "failure" ]; then
-      echo "![](https://img.shields.io/badge/deb_x86_build-failure-red)&nbsp;" >> ./docs/readme/status.md
+      echo "![](https://img.shields.io/badge/deb_amd_build-failure-red)&nbsp;" >> ./docs/readme/status.md
       echo "Job base-deb-build failed with conclusion: $base_deb_build"
     elif [ "$base_deb_build" == "success" ]; then
-      echo "![](https://img.shields.io/badge/deb_x86_build-success-brightgreen)&nbsp;" >> ./docs/readme/status.md
+      echo "![](https://img.shields.io/badge/deb_amd_build-success-brightgreen)&nbsp;" >> ./docs/readme/status.md
       echo "Job base-deb-build succeeded."
     else
-      echo "![](https://img.shields.io/badge/deb_x86_build-unknown-yellow)&nbsp;" >> ./docs/readme/status.md
+      echo "![](https://img.shields.io/badge/deb_amd_build-unknown-yellow)&nbsp;" >> ./docs/readme/status.md
       echo "Job base-deb-build is pending."
     fi 
     
