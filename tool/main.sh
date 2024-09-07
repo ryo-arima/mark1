@@ -204,6 +204,7 @@ function update-readme(){
     rm -f status.json
     rm README.md
     cat ./docs/readme/status.md > ./README.md
+    echo "<br>" >> ./README.md
     cat ./docs/readme/main.md >> ./README.md
 }
 
