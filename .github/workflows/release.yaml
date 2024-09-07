@@ -48,6 +48,4 @@ jobs:
         uses: actions/checkout@v4
       - name: Pull and run ARM container
         run: |
-         uname -m
-         ls -al
-         pwd
+          docker build --platform linux/arm64 -f tool/deb/Dockerfile.github -t tmp .
