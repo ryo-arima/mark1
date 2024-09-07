@@ -148,14 +148,18 @@ function update-readme(){
     gh run view $RUN_ID --json jobs --jq '.jobs[] | {name: .name, conclusion: .conclusion}' > status.json
 
     rm -f ./docs/readme/status.md 
+    
     # base-rpm-build
     base_rpm_build=$(cat status.json | jq -r '.[] | select(.name == "base-rpm-build") | .conclusion')
-    if [ "$base_rpm_build" != "success" ]; then
+    if [ "$base_rpm_build" == "failure" ]; then
       echo "![](https://img.shields.io/badge/rpm_x86_build-failure-red) &nbsp;" >> ./docs/readme/status.md
       echo "Job base-rpm-build failed with conclusion: $base_rpm_build"
-    else
+    elif [ "$base_rpm_build" == "success" ]; then 
       echo "![](https://img.shields.io/badge/rpm_x86_build-success-brightgreen) &nbsp;" >> ./docs/readme/status.md
       echo "Job base-rpm-build succeeded."
+    else
+      echo "![](https://img.shields.io/badge/rpm_x86_build-unknown-yellow) &nbsp;" >> ./docs/readme/status.md
+      echo "Job base-rpm-build is pending."
     fi
 
     # arm-rpm-build
@@ -163,9 +167,12 @@ function update-readme(){
     if [ "$arm_rpm_build" != "success" ]; then
       echo "![](https://img.shields.io/badge/rpm_arm_build-failure-red) &nbsp;" >> ./docs/readme/status.md
       echo "Job arm-rpm-build failed with conclusion: $arm_rpm_build"
-    else
+    elif [ "$arm_rpm_build" == "success" ]; then
       echo "![](https://img.shields.io/badge/rpm_arm_build-success-brightgreen) &nbsp;" >> ./docs/readme/status.md
       echo "Job arm-rpm-build succeeded."
+    else
+      echo "![](https://img.shields.io/badge/rpm_arm_build-unknown-yellow) &nbsp;" >> ./docs/readme/status.md
+      echo "Job arm-rpm-build is pending." 
     fi
 
     # arm-deb-build
@@ -173,9 +180,12 @@ function update-readme(){
     if [ "$arm_deb_build" != "success" ]; then
       echo "![](https://img.shields.io/badge/deb_arm_build-failure-red) &nbsp;" >> ./docs/readme/status.md
       echo "Job arm-deb-build failed with conclusion: $arm_deb_build"
-    else
+    elif [ "$arm_deb_build" == "success" ]; then
       echo "![](https://img.shields.io/badge/deb_arm_build-success-brightgreen) &nbsp;" >> ./docs/readme/status.md
       echo "Job arm-deb-build succeeded."
+    else
+      echo "![](https://img.shields.io/badge/deb_arm_build-unknown-yellow) &nbsp;" >> ./docs/readme/status.md
+      echo "Job arm-deb-build is pending."
     fi
 
     # base-deb-build
@@ -183,10 +193,14 @@ function update-readme(){
     if [ "$base_deb_build" != "success" ]; then
       echo "![](https://img.shields.io/badge/deb_x86_build-failure-red)" >> ./docs/readme/status.md
       echo "Job base-deb-build failed with conclusion: $base_deb_build"
-    else
+    elif [ "$base_deb_build" == "success" ]; then
       echo "![](https://img.shields.io/badge/deb_x86_build-success-brightgreen)" >> ./docs/readme/status.md
       echo "Job base-deb-build succeeded."
-    fi
+    else
+      echo "![](https://img.shields.io/badge/deb_x86_build-unknown-yellow)" >> ./docs/readme/status.md
+      echo "Job base-deb-build is pending."
+    fi 
+    
     rm -f status.json
     rm README.md
     cat ./docs/readme/status.md > ./README.md
