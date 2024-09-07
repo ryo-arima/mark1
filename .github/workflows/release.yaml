@@ -38,15 +38,16 @@ jobs:
   arm-deb-build:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Docker Buildx
-        uses: docker/build-push-action@v5
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
         with:
-          push: false
-          tags: tmp
-          platforms: linux/arm64
-          file: tool/deb/Dockerfile.github
-          build-args: |
-            TOKEN: ${{ secrets.MARK1_TOKEN }}
-          #env:
-          #run: |
-          #  docker build --platform linux/arm64 -f tool/deb/Dockerfile.github -t tmp --build-arg TOKEN=${GH_TOKEN} . 
+          platforms: arm64
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Check out the code
+        uses: actions/checkout@v4
+      - name: Build ARM PKG on container
+        env:
+          GH_TOKEN: ${{ secrets.MARK1_TOKEN }}
+        run: |
+          docker build --platform linux/arm64 -e GH_TOKEN=${GH_TOKEN} -f tool/deb/Dockerfile.github -t tmp  .
