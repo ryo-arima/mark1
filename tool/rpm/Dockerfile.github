@@ -1,5 +1,5 @@
 ARG TOKEN=""
-FROM ryoarima/ubuntu-arm:latest
+FROM ryoarima/rocky-arm:latest
 ENV GH_TOKEN=$TOKEN
 
 WORKDIR /root
@@ -7,7 +7,7 @@ WORKDIR /root
 COPY ./.. /root/mark1
 
 RUN echo "Start" && \
-    pwd && ls -la && \
-    echo ${GH_TOKEN}
+    pwd && ls -la
+
 
 CMD [ "echo", "This is mark1" ]
