@@ -7,9 +7,10 @@ WORKDIR /root
 COPY ./.. /root/mark1
 
 RUN echo "Start" && \
-    pwd && ls -la && \
-    cd /root/mark && \
-    make build-bin && \
+    pwd && ls -la
+    
+WORKDIR /root/mark1 
+RUN make build-bin && \
     make build-deb && \
     make push-deb
 
