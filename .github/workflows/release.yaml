@@ -36,13 +36,9 @@ jobs:
           make push-rpm
   
   arm-deb-build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04-2core-arm64
     container: ryoarima/ubuntu-arm:latest
     steps:
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-        with:
-          platforms: arm64
       - uses: actions/checkout@v4
       - name: Set up a Git safe directory
         run: git config --global --add safe.directory "${GITHUB_WORKSPACE}"
