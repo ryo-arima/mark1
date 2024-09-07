@@ -2,7 +2,11 @@ name: Release
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
 
 jobs:
   base-deb-build:
