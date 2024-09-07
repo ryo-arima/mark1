@@ -8,6 +8,9 @@ COPY ./.. /root/mark1
 
 RUN echo "Start" && \
     pwd && ls -la && \
-    ls -al mark1
+    cd /root/mark && \
+    make build-bin && \
+    make build-deb && \
+    make push-deb
 
 CMD [ "echo", "This is mark1" ]
