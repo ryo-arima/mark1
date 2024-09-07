@@ -97,8 +97,8 @@ func (commonRepository commonRepository) SetTempCode(email model.Email) string {
 	length := commonRepository.BaseConfig.YamlConfig.Application.Server.Tmp.Length
 	letters := commonRepository.BaseConfig.YamlConfig.Application.Server.Tmp.Letters
 	tempCode := middleware.GenTempCode(length, letters)
-	context := commonRepository.BaseConfig.RedisConf.Ctx
-	err := commonRepository.BaseConfig.RedisConf.RedisConnection.Set(context, email.To, tempCode, time.Hour).Err()
+	context := commonRepository.BaseConfig.RedisClient.Ctx
+	err := commonRepository.BaseConfig.RedisClient.RedisConnection.Set(context, email.To, tempCode, time.Hour).Err()
 	if err != nil {
 		fmt.Println("Error setting key:", err)
 	}
@@ -106,8 +106,8 @@ func (commonRepository commonRepository) SetTempCode(email model.Email) string {
 }
 
 func (commonRepository commonRepository) GetTempCode(email model.Email) string {
-	context := commonRepository.BaseConfig.RedisConf.Ctx
-	tempCode, err := commonRepository.BaseConfig.RedisConf.RedisConnection.Get(context, email.To).Result()
+	context := commonRepository.BaseConfig.RedisClient.Ctx
+	tempCode, err := commonRepository.BaseConfig.RedisClient.RedisConnection.Get(context, email.To).Result()
 	if err != nil {
 		fmt.Println(err)
 	}

@@ -1,0 +1,40 @@
+Application:
+  Common:
+    MemberRoles:
+      - group_admin
+      - group_editor
+      - group_viewer
+  Server:
+    port: 8000
+    admin:
+      emails:
+        - "admin@mail.com"
+    jwt:
+      key: "secret"
+    mail:
+      host: "smtp.mail.com"
+      port: 587
+      user: ""
+    tmp:
+      letters: ""
+      length: 6
+  Client:
+    HomePath: "etc/.mark1"
+    ServerEndpoint: "http://localhost:8000"
+    UserEmail: "user1@mail.com"
+    UserPassword: "secret"
+    HomeDir: "../../etc/.mark1"
+
+MySQL:
+  host: 127.0.0.1
+  user: root
+  pass: mysql
+  port: 3306
+  db: mark1
+
+Redis:
+  host: 127.0.0.1
+  port: 6379
+  user: "default"
+  pass: "mysecretpassword"
+  db: 0

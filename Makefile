@@ -29,3 +29,6 @@ build-container-up:
 
 update-readme:
 	./tool/main.sh update-readme
+
+go-test:
+	./test/main.sh test

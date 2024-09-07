@@ -11,4 +11,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Test
-        run: go test ./... -v
+        run: |
+          make go-test
