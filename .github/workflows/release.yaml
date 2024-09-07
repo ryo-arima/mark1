@@ -51,3 +51,20 @@ jobs:
           GH_TOKEN: ${{ secrets.MARK1_TOKEN }}
         run: |
           docker run --platform linux/arm64 --rm -v ${GITHUB_WORKSPACE}:/root/mark1 -e GH_TOKEN=${GH_TOKEN} ryoarima/ubuntu-arm:latest bash -c "git config --global --add safe.directory /root/mark1 && cd /root/mark1 && make build-bin && make build-deb && make push-deb"
+  
+  arm-rpm-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: arm64
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Check out the code
+        uses: actions/checkout@v4
+      - name: Build ARM PKG on container
+        env:
+          GH_TOKEN: ${{ secrets.MARK1_TOKEN }}
+        run: |
+          docker run --platform linux/arm64 --rm -v ${GITHUB_WORKSPACE}:/root/mark1 -e GH_TOKEN=${GH_TOKEN} ryoarima/rocky-base:latest bash -c "git config --global --add safe.directory /root/mark1 && cd /root/mark1 && make build-bin && make build-rpm && make push-rpm"
