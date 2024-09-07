@@ -43,11 +43,13 @@ jobs:
         with:
           platforms: arm64
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      - name: Check out the code
-        uses: actions/checkout@v4
-      - name: Pull and run ARM container
-        env:
-          GH_TOKEN: ${{ secrets.MARK1_TOKEN }}
-        run: |
-          docker build --platform linux/arm64 -f tool/deb/Dockerfile.github -t tmp --build-arg TOKEN=${GH_TOKEN} . 
+        uses: docker/build-push-action@v3
+        with:
+          push: false
+          tags: tmp
+          file: tool/deb/Dockerfile.github
+          build-args: |
+            TOKEN: ${{ secrets.MARK1_TOKEN }}
+          #env:
+          #run: |
+          #  docker build --platform linux/arm64 -f tool/deb/Dockerfile.github -t tmp --build-arg TOKEN=${GH_TOKEN} . 
