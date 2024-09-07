@@ -144,7 +144,7 @@ function push-rpm(){
 }
 
 function update-readme(){
-    RUN_ID=$(gh run list --limit 1 --json databaseId,status --jq '.[0].databaseId')
+    RUN_ID=$(gh run list --json databaseId,status,name --jq 'limit(1; .[] | select(.name == "Release")) | .databaseId')
     gh run view $RUN_ID --json jobs --jq '[.jobs[] | {name: .name, conclusion: .conclusion}]' > status.json
 
     rm -f ./docs/readme/status.md 
