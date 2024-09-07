@@ -39,9 +39,11 @@ jobs:
     runs-on: ubuntu-latest
     container: ryoarima/ubuntu-arm:latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
         with:
-          platform: linux/arm64
+          platforms: arm64
+      - uses: actions/checkout@v4
       - name: Set up a Git safe directory
         run: git config --global --add safe.directory "${GITHUB_WORKSPACE}"
       - name: Build Bin,Deb & Publish
