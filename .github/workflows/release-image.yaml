@@ -1,4 +1,4 @@
-name: UPDATE README
+name: RELEASE IMAGE
 
 on:
     workflow_dispatch:
@@ -6,7 +6,7 @@ on:
         name:
           description: ""
           required: true
-          default: "update-readme"
+          default: "release-image"
 
 jobs:
   ubuntu-base-mark1:
