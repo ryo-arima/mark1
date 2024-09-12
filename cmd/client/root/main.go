@@ -25,7 +25,7 @@ func main() {
 	switch role {
 	case "admin":
 		cmd := exec.Command("bash", "-c", "/opt/mark1/admin-client")
-		output, err := cmd.CombinedOutput() // 標準出力と標準エラーをキャプチャ
+		output, err := cmd.CombinedOutput()
 		if err != nil {
 			fmt.Printf("Failed to run admin-client: %v\n", err)
 			fmt.Printf("Output: %s\n", output)
