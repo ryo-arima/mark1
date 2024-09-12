@@ -24,16 +24,25 @@ func main() {
 
 	switch role {
 	case "admin":
-		if err := exec.Command("bash", "-c", "/opt/mark1/admin-client").Run(); err != nil {
+		cmd := exec.Command("bash", "-c", "/opt/mark1/admin-client")
+		output, err := cmd.CombinedOutput() // 標準出力と標準エラーをキャプチャ
+		if err != nil {
 			fmt.Printf("Failed to run admin-client: %v\n", err)
+			fmt.Printf("Output: %s\n", output)
 		}
 	case "app":
-		if err := exec.Command("bash", "-c", "/opt/mark1/app-client").Run(); err != nil {
+		cmd := exec.Command("bash", "-c", "/opt/mark1/app-client")
+		output, err := cmd.CombinedOutput()
+		if err != nil {
 			fmt.Printf("Failed to run app-client: %v\n", err)
+			fmt.Printf("Output: %s\n", output)
 		}
 	case "anonymous":
-		if err := exec.Command("bash", "-c", "/opt/mark1/anonymous-client").Run(); err != nil {
+		cmd := exec.Command("bash", "-c", "/opt/mark1/anonymous-client")
+		output, err := cmd.CombinedOutput()
+		if err != nil {
 			fmt.Printf("Failed to run anonymous-client: %v\n", err)
+			fmt.Printf("Output: %s\n", output)
 		}
 	default:
 		fmt.Println("Invalid role. You can specify 'admin', 'app', or 'anonymous' in MARK1_HOME_DIR/role")
