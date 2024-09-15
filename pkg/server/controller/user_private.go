@@ -32,7 +32,6 @@ func (userController userControllerForPrivate) GetUsers(c *gin.Context) {
 	return
 }
 
-
 func (userController userControllerForPrivate) CreateUser(c *gin.Context) {
 	var userRequest request.UserRequest
 	if err := c.Bind(&userRequest); err != nil {
@@ -44,7 +43,6 @@ func (userController userControllerForPrivate) CreateUser(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 	return
 }
-
 
 func (userController userControllerForPrivate) UpdateUser(c *gin.Context) {
 	var userRequest request.UserRequest
@@ -58,7 +56,6 @@ func (userController userControllerForPrivate) UpdateUser(c *gin.Context) {
 	return
 }
 
-
 func (userController userControllerForPrivate) DeleteUser(c *gin.Context) {
 	var userRequest request.UserRequest
 	if err := c.Bind(&userRequest); err != nil {
@@ -71,7 +68,6 @@ func (userController userControllerForPrivate) DeleteUser(c *gin.Context) {
 	return
 }
 
-
 func NewUserControllerForPrivate(userRepository repository.UserRepository) UserControllerForPrivate {
-	return &userControllerForPrivate{ UserRepository: userRepository}
+	return &userControllerForPrivate{UserRepository: userRepository}
 }

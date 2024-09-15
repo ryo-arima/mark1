@@ -15,7 +15,6 @@ import (
 
 type UserRepository interface {
 	BootstrapUserForDB(request request.UserRequest) (response response.UserResponse)
-	GetUserForPublic(request request.UserRequest) (response response.UserResponse)
 	GetUserForInternal(request request.UserRequest) (response response.UserResponse)
 	GetUserForPrivate(request request.UserRequest) (response response.UserResponse)
 	CreateUserForPublic(request request.UserRequest) (response response.UserResponse)
@@ -39,17 +38,34 @@ func (userRepository userRepository) BootstrapUserForDB(request request.UserRequ
 }
 
 // GET
-func (userRepository userRepository) GetUserForPublic(request request.UserRequest) (response response.UserResponse) {
-	return response
-}
-
 func (userRepository userRepository) GetUserForInternal(request request.UserRequest) (response response.UserResponse) {
 	fmt.Println("GetUserForInternal")
 	return response
 }
 
 func (userRepository userRepository) GetUserForPrivate(request request.UserRequest) (response response.UserResponse) {
-	fmt.Println("GetUserForPrivate")
+	URL := userRepository.BaseConfig.YamlConfig.Application.Client.ServerEndpoint + "/api/private/users"
+
+	resp, err := http.Get(URL)
+	if err != nil {
+		return response
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return response
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return response
+	}
+
+	err = json.Unmarshal(body, &response)
+	if err != nil {
+		return response
+	}
+
 	return response
 }
 

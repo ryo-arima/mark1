@@ -102,14 +102,45 @@ func InitGetUserCmdForAdminUser(conf config.BaseConfig) *cobra.Command {
 		Short: "get the value of a key",
 		Long:  "get the value of a key",
 		Run: func(cmd *cobra.Command, args []string) {
-			option, err := cmd.Flags().GetString("key")
+			_id, err := cmd.Flags().GetString("id")
 			if err != nil {
 				log.Fatal(err)
 			}
-			fmt.Println(option)
+			_uuid, err := cmd.Flags().GetString("uuid")
+			if err != nil {
+				log.Fatal(err)
+			}
+			_email, err := cmd.Flags().GetString("email")
+			if err != nil {
+				log.Fatal(err)
+			}
+			_name, err := cmd.Flags().GetString("name")
+			if err != nil {
+				log.Fatal(err)
+			}
+			_status, err := cmd.Flags().GetString("status")
+			if err != nil {
+				log.Fatal(err)
+			}
+			_request := request.UserRequest{
+				User: request.User{
+					ID:     _id,
+					UUID:   _uuid,
+					Email:  _email,
+					Name:   _name,
+					Status: _status,
+				},
+			}
+			userRepository := repository.NewUserRepository(conf)
+			userUsecase := usecase.NewUserUsecase(userRepository)
+			userUsecase.GetUserForPrivate(_request)
 		},
 	}
-	getUserCmd.Flags().StringP("key", "k", "", "cache key")
+	getUserCmd.Flags().StringP("id", "", "", "id")
+	getUserCmd.Flags().StringP("uuid", "", "", "uuid")
+	getUserCmd.Flags().StringP("email", "", "", "email")
+	getUserCmd.Flags().StringP("name", "", "", "name")
+	getUserCmd.Flags().StringP("status", "", "", "status")
 	return getUserCmd
 }
 

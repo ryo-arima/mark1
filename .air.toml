@@ -4,8 +4,8 @@ bin_dir = "bin"
 
 [build]
   args_bin = []
-  bin = "./bin/main"
-  cmd = "go build -o ./bin/main ."
+  bin = "./bin/server"
+  cmd = "dlv debug --headless --listen=:8080 --log --api-version=2 cmd/server/main.go"
   delay = 1000
   exclude_dir = ["assets", "bin", "vendor", "testdata"]
   exclude_file = []
