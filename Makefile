@@ -33,5 +33,5 @@ update-readme:
 go-test:
 	./test/main.sh test
 
-debug:
+debug-server:
 	dlv connect localhost:8080

@@ -13,6 +13,7 @@ func main() {
 		panic(err)
 	}
 
+	//hoge
 	dbConnector := config.NewDBConnector()
 	redisConnector := config.NewRedisConnector()
 
