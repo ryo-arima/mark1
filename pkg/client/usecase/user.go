@@ -9,7 +9,6 @@ import (
 
 type UserUsecase interface {
 	BootstrapUserForDB(request request.UserRequest)
-	GetUserForPublic(request request.UserRequest)
 	GetUserForInternal(request request.UserRequest)
 	GetUserForPrivate(request request.UserRequest)
 	CreateUserForPublic(request request.UserRequest)
@@ -32,11 +31,6 @@ func (userUsecase userUsecase) BootstrapUserForDB(request request.UserRequest) {
 }
 
 // GET
-func (userUsecase userUsecase) GetUserForPublic(request request.UserRequest) {
-	users := userUsecase.UserRepository.GetUserForPublic(request)
-	fmt.Println(users)
-}
-
 func (userUsecase userUsecase) GetUserForInternal(request request.UserRequest) {
 	users := userUsecase.UserRepository.GetUserForInternal(request)
 	fmt.Println(users)
