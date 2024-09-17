@@ -46,6 +46,12 @@ type Client struct {
 	TemplatesDir   string `yaml:"TemplatesDir"`
 }
 
+type Agent struct {
+	ServerEndpoint string `yaml:"ServerEndpoint"`
+	UserEmail      string `yaml:"UserEmail"`
+	UserPassword   string `yaml:"UserPassword"`
+}
+
 type Application struct {
 	Server Server `yaml:"Server"`
 	Client Client `yaml:"Client"`

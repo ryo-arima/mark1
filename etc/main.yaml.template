@@ -24,6 +24,7 @@ Application:
     UserEmail: "user1@mail.com"
     UserPassword: "secret"
     HomeDir: "etc/.mark1"
+    TemplatesDir: "pkg/client/repository/templates/"
 
 MySQL:
   host: 127.0.0.1
