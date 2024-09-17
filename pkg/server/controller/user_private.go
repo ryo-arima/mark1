@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -27,7 +28,7 @@ func (userController userControllerForPrivate) GetUsers(c *gin.Context) {
 	users := userController.UserRepository.GetUsers()
 	for _, user := range users {
 		res.Users = append(res.Users, response.User{
-			ID:        string(user.ID),
+			ID:        fmt.Sprintf("%v", user.ID),
 			UUID:      user.UUID,
 			Email:     user.Email,
 			Name:      user.Name,

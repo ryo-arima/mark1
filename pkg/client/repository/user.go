@@ -74,7 +74,6 @@ func (userRepository userRepository) GetUserForPrivate(request request.UserReque
 		fmt.Println("Error unmarshalling JSON:", err)
 		return response
 	}
-	fmt.Println("Response Body:", response.Users)
 	return response
 }
 

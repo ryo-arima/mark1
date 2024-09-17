@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/ryo-arima/mark1/pkg/client/repository"
+	"github.com/ryo-arima/mark1/pkg/client/repository/templates"
 	"github.com/ryo-arima/mark1/pkg/client/usecase"
 	"github.com/ryo-arima/mark1/pkg/config"
 	"github.com/ryo-arima/mark1/pkg/entity/request"
@@ -18,7 +19,8 @@ func InitBootstrapUserCmdForAdminUser(conf config.BaseConfig) *cobra.Command {
 		Long:  "bootstrap the value of a key",
 		Run: func(cmd *cobra.Command, args []string) {
 			userRepository := repository.NewUserRepository(conf)
-			userUsecase := usecase.NewUserUsecase(userRepository)
+			templateRepository := templates.NewTemplateRepository(conf)
+			userUsecase := usecase.NewUserUsecase(userRepository, templateRepository)
 			userUsecase.BootstrapUserForDB(request.UserRequest{})
 		},
 	}
@@ -52,7 +54,8 @@ func InitCreateUserCmdForAnonymousUser(conf config.BaseConfig) *cobra.Command {
 				},
 			}
 			userRepository := repository.NewUserRepository(conf)
-			userUsecase := usecase.NewUserUsecase(userRepository)
+			templateRepository := templates.NewTemplateRepository(conf)
+			userUsecase := usecase.NewUserUsecase(userRepository, templateRepository)
 			userUsecase.CreateUserForPublic(_request)
 		},
 	}
@@ -122,6 +125,10 @@ func InitGetUserCmdForAdminUser(conf config.BaseConfig) *cobra.Command {
 			if err != nil {
 				log.Fatal(err)
 			}
+			_isJson, err := cmd.Flags().GetBool("json")
+			if err != nil {
+				log.Fatal(err)
+			}
 			_request := request.UserRequest{
 				User: request.User{
 					ID:     _id,
@@ -132,8 +139,9 @@ func InitGetUserCmdForAdminUser(conf config.BaseConfig) *cobra.Command {
 				},
 			}
 			userRepository := repository.NewUserRepository(conf)
-			userUsecase := usecase.NewUserUsecase(userRepository)
-			userUsecase.GetUserForPrivate(_request)
+			templateRepository := templates.NewTemplateRepository(conf)
+			userUsecase := usecase.NewUserUsecase(userRepository, templateRepository)
+			userUsecase.GetUserForPrivate(_request, _isJson)
 		},
 	}
 	getUserCmd.Flags().StringP("id", "", "", "id")
@@ -141,6 +149,7 @@ func InitGetUserCmdForAdminUser(conf config.BaseConfig) *cobra.Command {
 	getUserCmd.Flags().StringP("email", "", "", "email")
 	getUserCmd.Flags().StringP("name", "", "", "name")
 	getUserCmd.Flags().StringP("status", "", "", "status")
+	getUserCmd.Flags().BoolP("json", "", false, "json")
 	return getUserCmd
 }
 

@@ -4,13 +4,14 @@ import (
 	"fmt"
 
 	"github.com/ryo-arima/mark1/pkg/client/repository"
+	"github.com/ryo-arima/mark1/pkg/client/repository/templates"
 	"github.com/ryo-arima/mark1/pkg/entity/request"
 )
 
 type UserUsecase interface {
 	BootstrapUserForDB(request request.UserRequest)
 	GetUserForInternal(request request.UserRequest)
-	GetUserForPrivate(request request.UserRequest)
+	GetUserForPrivate(request request.UserRequest, isJson bool)
 	CreateUserForPublic(request request.UserRequest)
 	CreateUserForInternal(request request.UserRequest)
 	CreateUserForPrivate(request request.UserRequest)
@@ -21,7 +22,8 @@ type UserUsecase interface {
 }
 
 type userUsecase struct {
-	UserRepository repository.UserRepository
+	UserRepository     repository.UserRepository
+	TemplateRepository templates.TemplateRepository
 }
 
 // Bootstrap
@@ -36,9 +38,13 @@ func (userUsecase userUsecase) GetUserForInternal(request request.UserRequest) {
 	fmt.Println(users)
 }
 
-func (userUsecase userUsecase) GetUserForPrivate(request request.UserRequest) {
+func (userUsecase userUsecase) GetUserForPrivate(request request.UserRequest, isJson bool) {
 	users := userUsecase.UserRepository.GetUserForPrivate(request)
-	fmt.Println(users)
+	if isJson {
+		userUsecase.TemplateRepository.OutputUsersJson(users.Users)
+	} else {
+		userUsecase.TemplateRepository.OutputUsers(users.Users)
+	}
 }
 
 // CREATE
@@ -79,6 +85,9 @@ func (userUsecase userUsecase) DeleteUserForPrivate(request request.UserRequest)
 	fmt.Println(users)
 }
 
-func NewUserUsecase(userRepository repository.UserRepository) UserUsecase {
-	return &userUsecase{UserRepository: userRepository}
+func NewUserUsecase(userRepository repository.UserRepository, templateRepository templates.TemplateRepository) UserUsecase {
+	return &userUsecase{
+		UserRepository:     userRepository,
+		TemplateRepository: templateRepository,
+	}
 }
