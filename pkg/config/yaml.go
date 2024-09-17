@@ -43,6 +43,7 @@ type Client struct {
 	UserEmail      string `yaml:"UserEmail"`
 	UserPassword   string `yaml:"UserPassword"`
 	HomeDir        string `yaml:"HomeDir"`
+	TemplatesDir   string `yaml:"TemplatesDir"`
 }
 
 type Application struct {

@@ -46,7 +46,15 @@ func (userRepository userRepository) GetUserForInternal(request request.UserRequ
 func (userRepository userRepository) GetUserForPrivate(request request.UserRequest) (response response.UserResponse) {
 	URL := userRepository.BaseConfig.YamlConfig.Application.Client.ServerEndpoint + "/api/private/users"
 
-	resp, err := http.Get(URL)
+	req, err := http.NewRequest("GET", URL, nil)
+	if err != nil {
+		return response
+	}
+
+	req.Header.Set("Authorization", userRepository.BaseConfig.Token)
+
+	client := http.Client{}
+	resp, err := client.Do(req)
 	if err != nil {
 		return response
 	}
@@ -63,9 +71,9 @@ func (userRepository userRepository) GetUserForPrivate(request request.UserReque
 
 	err = json.Unmarshal(body, &response)
 	if err != nil {
+		fmt.Println("Error unmarshalling JSON:", err)
 		return response
 	}
-
 	return response
 }
 
