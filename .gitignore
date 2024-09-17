@@ -3,3 +3,4 @@ etc/.mark1
 bin/
 __debug_*
 debug/
+tmp/
