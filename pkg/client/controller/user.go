@@ -98,7 +98,7 @@ func InitGetUserCmdForAppUser(conf config.BaseConfig) *cobra.Command {
 
 func InitGetUserCmdForAdminUser(conf config.BaseConfig) *cobra.Command {
 	getUserCmd := &cobra.Command{
-		Use:   "user",
+		Use:   "users",
 		Short: "get the value of a key",
 		Long:  "get the value of a key",
 		Run: func(cmd *cobra.Command, args []string) {
