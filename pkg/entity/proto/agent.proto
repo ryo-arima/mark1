@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package agent;
+
+option go_package = "pkg/agent/auto";
+
+service Agent {
+  rpc Executer (CommandRequest) returns (CommandReply) {}
+  rpc Sync (SyncRequest) returns (SyncReply) {}
+}
+
+message SyncRequest {
+  string data = 1;
+}
+
+message SyncReply {
+  string code = 1;
+  string message = 2;
+}
+
+message CommandRequest {
+  string environments = 1;
+  string shell = 2;
+  string args = 3;
+  string timeout = 4;
+}
+
+message CommandReply {
+  string code = 1;
+  string message = 2;
+}

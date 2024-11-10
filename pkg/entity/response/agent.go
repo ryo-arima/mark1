@@ -1,16 +1,18 @@
 package response
 
-type CommandResponse struct {
-	Command Command `json:"command"`
+type AgentResponse struct {
+	Code    string
+	Message string
+	Agents  []Agent
 }
 
-type Command struct {
-	AgentUUID string          `json:"agent_uuid"`
-	AgentName string          `json:"agent_name"`
-	Results   []CommandResult `json:"results"`
-}
-
-type CommandResult struct {
-	Code    string `json:"code"`
-	Message string `json:"message"`
+type Agent struct {
+	ID        uint   `json:"id"`
+	UUID      string `json:"uuid"`
+	Name      string `json:"name"`
+	IP        string `json:"ip"`
+	Status    string `json:"status"`
+	CreatedAt string `json:"created_at"`
+	UpdatedAt string `json:"updated_at"`
+	DeletedAt string `json:"deleted_at"`
 }

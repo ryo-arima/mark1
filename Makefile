@@ -35,3 +35,6 @@ go-test:
 
 debug-server:
 	dlv connect localhost:8080
+
+gen-agent:
+	protoc --go_out=. --go-grpc_out=. pkg/entity/proto/agent.proto 
